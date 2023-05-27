@@ -50,27 +50,33 @@ for i in datas:
         print('-' * 100)
         fontName = i.split('title="')[1]
         fontName = fontName.split('"')[0]
-        print('字体名称：' + fontName)
+        print('字体名称：', fontName)
 
         fontId = i.split('font-detail-link="')[1]
         fontId = fontId.split('"')[0]
-        print('字体编号：' + fontId)
+        print('字体编号：', fontId)
 
         fontType = i.split('title="')[2]
         fontType = fontType.split('"')[0]
-        print('字体类型：' + fontType)
+        print('字体类型：', fontType)
 
         fontImg = i.split('<img src="')[1]
         fontImg = 'https:' + fontImg.split('"')[0]
-        print('字体图片：' + fontImg)
+        print('字体图片：', fontImg)
 
         fontDownload = i.split('icon-download">')
         if len(fontDownload) > 1:
-            fontDownload = '本地下载'
+            fontDownload = 1
         else:
-            fontDownload = '无法下载'
-        print('字体下载：' + fontDownload)
+            fontDownload = 0
+        print('字体下载：', fontDownload)
 
         fontViewNum = i.split('<p><span>共')[1]
         fontViewNum = fontViewNum.split('次浏览</span></p>')[0]
-        print('浏览次数：' + fontViewNum)
+        fontViewNum = int(fontViewNum)
+        print('浏览次数：', fontViewNum)
+
+        sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (fontName, fontId, fontType, fontImg, fontDownload, fontViewNum)
+        dbcursor.execute(sql, val)
+        db.commit()
