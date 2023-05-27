@@ -10,8 +10,8 @@ db = pymysql.connect(
 )
 
 dbcursor = db.cursor()
-dbcursor.execute("CREATE DATABASE IF NOT EXISTS font")
-dbcursor.execute("USE font")
+dbcursor.execute("CREATE DATABASE IF NOT EXISTS fontlibrary")
+dbcursor.execute("USE fontlibrary")
 
 #创建数据表
 dbcursor.execute("CREATE TABLE IF NOT EXISTS `fontdata` (\
@@ -20,6 +20,7 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `fontdata` (\
                     `font_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,\
                     `font_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,\
                     `font_imgurl` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,\
+                    `font_preview` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,\
                     `font_download` int NULL DEFAULT NULL,\
                     `font_viewnum` int NULL DEFAULT NULL,\
                     PRIMARY KEY (`id`) USING BTREE\
@@ -41,7 +42,7 @@ data = data.split('<ul class="site_font_list">')[1]
 data = data.split('</ul>')[0]
 
 datas = data.split('</li>')
-# print(datas[0])
+print(datas[0])
 
 for i in datas:
     if i == '':
@@ -71,6 +72,11 @@ for i in datas:
         else:
             fontDownload = 0
         print('支持下载：', fontDownload)
+
+        fontPreview = i.split('preview-file="')[1]
+        fontPreview = fontPreview.split('"')[0]
+        print('预览链接：', fontPreview)
+
         # 分割出字体的浏览次数
         fontViewNum = i.split('<p><span>共')[1]
         fontViewNum = fontViewNum.split('次浏览</span></p>')[0]
@@ -98,7 +104,7 @@ for i in datas:
             fontTypeId = result[0][0]
 
         # 将字体数据插入字体数据表中
-        sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s)"
-        val = (fontName, fontId, fontTypeId, fontImg, fontDownload, fontViewNum)
+        sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum)
         dbcursor.execute(sql, val)
         db.commit()
