@@ -72,10 +72,11 @@ for i in datas:
         else:
             fontDownload = 0
         print('支持下载：', fontDownload)
-
+        # 分割出字体预览链接
         fontPreview = i.split('preview-file="')[1]
         fontPreview = fontPreview.split('"')[0]
         print('预览链接：', fontPreview)
+        # https://previewer.fonts.net.cn/canvas.php?font=41579-038eb649ff913a15f440145abc1b32aa.ttf&text=%E8%BE%BE%E7%93%A6
 
         # 分割出字体的浏览次数
         fontViewNum = i.split('<p><span>共')[1]
