@@ -200,9 +200,9 @@ for j in range(1, 774):
     print('=' * 100)
     print('中文字体\n当前第', j, '页')
     print('=' * 100)
-    randomnum = random.randint(0, 1000)
-    stime = randomnum / 1000
-    time.sleep(stime)
+    # randomnum = random.randint(0, 1000)
+    # stime = randomnum / 1000
+    # time.sleep(stime)
 
 '''
     获取英文字体分类的字体信息
@@ -290,9 +290,9 @@ for j in range(1, 3151):
     print('=' * 100)
     print('英文字体\n当前第', j, '页')
     print('=' * 100)
-    randomnum = random.randint(0, 1000)
-    stime = randomnum / 1000
-    time.sleep(stime)
+    # randomnum = random.randint(0, 1000)
+    # stime = randomnum / 1000
+    # time.sleep(stime)
 
 '''
     获取图型字体分类的字体信息
@@ -380,6 +380,6 @@ for j in range(1, 263):
     print('=' * 100)
     print('图形字体\n当前第', j, '页')
     print('=' * 100)
-    randomnum = random.randint(0, 1000)
-    stime = randomnum / 1000
-    time.sleep(stime)
+    # randomnum = random.randint(0, 1000)
+    # stime = randomnum / 1000
+    # time.sleep(stime)
