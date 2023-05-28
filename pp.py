@@ -198,7 +198,7 @@ for j in range(1, 774):
             dbcursor.execute(sql, val)
             db.commit()
     print('=' * 100)
-    print('-+-中文字体-+-\n当前第', j, '页')
+    print('中文字体\n当前第', j, '页')
     print('=' * 100)
     randomnum = random.randint(0, 1000)
     stime = randomnum / 1000
@@ -288,7 +288,7 @@ for j in range(1, 3151):
             dbcursor.execute(sql, val)
             db.commit()
     print('=' * 100)
-    print('-+-英文字体-+-\n当前第', j, '页')
+    print('英文字体\n当前第', j, '页')
     print('=' * 100)
     randomnum = random.randint(0, 1000)
     stime = randomnum / 1000
@@ -378,7 +378,7 @@ for j in range(1, 263):
             dbcursor.execute(sql, val)
             db.commit()
     print('=' * 100)
-    print('-+-图形字体-+-\n当前第', j, '页')
+    print('图形字体\n当前第', j, '页')
     print('=' * 100)
     randomnum = random.randint(0, 1000)
     stime = randomnum / 1000
