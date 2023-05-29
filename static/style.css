@@ -1,0 +1,326 @@
+[data-route] {
+    display: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    box-sizing: border-box;
+    font-weight: lighter;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+    background-color: white;
+}
+
+.borderbox {
+    position: relative;
+    top: -60px;
+    min-height: 323px;
+    background-color: white;
+}
+
+.hr {
+    margin: 10px 6px;
+    border: none;
+    border-top: 1px solid #20252c;
+    transform: scaleY(0.5);
+}
+
+.top {
+    margin: auto;
+    padding: 5px;
+    font-size: 24px;
+    width: 300px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #20252c;
+}
+
+.top a {   
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    padding: 8px;   
+    transition: 0.5s;
+    color: black;
+}
+
+.top a:after {
+    position: absolute;
+    right: -15px;
+    content: '»';
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.top:hover a {
+    padding-right: 30px;
+}
+
+.top:hover a:after {
+    opacity: 1;
+    right: 0;
+}
+
+.box {
+    position: relative;
+    width: 300px;
+}
+
+.box .inputBox {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #20252c;
+}
+
+.box .nameBox {
+    font-size: 16px;
+    flex: 1;
+    outline: none;
+    border: none;
+    padding: 5px;
+    font-weight: normal;
+    color: #333;
+}
+
+.box .passwordBox {
+    font-size: 16px;
+    flex: 1;
+    outline: none;
+    border: none;
+    padding: 5px;
+    font-weight: normal;
+    color: #333;
+}
+
+.box .logoButton {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box .logoButton::before {
+    content: "\f06e";
+    font-size: 16px;
+    font-family: fontAwesome;
+}
+
+.box .hide::before {
+    content: "\f070";
+    font-family: fontAwesome;
+}
+
+.btnbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sbtn {   
+    border-radius: 6px;
+    font-size: 16px;
+    border: 1px solid #20252c;
+    width: 120px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    padding: 8px;   
+    transition: 0.5s;
+    background-color: white;
+}
+
+.sbtn:after {
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    content: '»';
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.sbtn:hover {
+    padding-right: 15px;
+}
+
+.sbtn:hover:after {
+    opacity: 1;
+    right: 14px;
+}
+
+.godxu {
+    width: 300px;
+    border: 1px solid #20252c;
+    border-radius: 6px;
+    padding: 5px;
+    color: #20252c;
+}
+
+.msg {
+    min-height: 42px;
+    user-select: text;
+}
+
+.from {
+    text-align: right;
+    user-select: text;
+}
+
+.sbottom {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    margin: 0 57px;
+    transition: 0.5s;
+}
+
+.sbottom .about {
+    display: inline-block;
+    border-radius: 10px;
+    transition: 0.3s;
+    margin-bottom: 10px;
+    border: 1px solid white;
+}
+
+.sbottom .about .icon {
+    margin: 0 10px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    padding: 1px;
+}
+
+.sbottom .about .code {
+    border-radius: 10px;
+    padding-top: 5px;
+    transition: 0.3s;
+}
+
+.sbottom .about:hover {
+    background-color: white;
+    border: 1px solid black; 
+}
+
+.sbottom .about .code img {
+    width: 0px;
+    transition: 0.3s;
+}
+
+.sbottom .about:hover .code img {
+    width: 100px;
+}
+
+.sbottom .about:hover .icon {
+    margin: 0 35px;
+}
+
+.yqlj {
+    color: black;
+    text-decoration-line: none;
+}
+
+.yqlj:hover {
+    text-decoration-line: underline;
+}
+
+.validation {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #20252c;
+}
+
+.validation ul {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.validation ul li {
+    position: relative;
+    font-size: 16px;
+    font-weight: lighter;
+    list-style: none;
+    transition: 0.3s;
+}
+
+.validation ul li.valid {
+    color: #0349b4;
+}
+
+.validation ul li::before {
+    content: "\f192";
+    font-family: fontAwesome;
+    width: 22px;
+    display: inline-flex;
+}
+
+.validation ul li.valid::before {
+    content: "\f00c";
+    font-family: fontAwesome;
+    transition: 0.1s;
+}
+
+.btnbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.default {
+    cursor: not-allowed;
+    background-color: white;
+    color: black;
+    border-radius: 8px;
+    font-size: 16px;
+    border: none;
+    width: 120px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    padding: 8px;   
+    transition: 0.5s;
+    border: 1px solid #20252c;
+}
+
+.box .checkBox {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    padding: 5px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #20252c;
+    font-weight: normal;
+}
+
+.hidden {
+    z-index: 5;
+}
+
+/*用于消除edge密码框的默认小眼睛*/
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+input[type="password"]::-ms-clear {
+    display: none;
+}
+input[type="password"]::-o-clear {
+    display: none;
+}
