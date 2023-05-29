@@ -139,7 +139,7 @@ body {
     position: relative;
     text-decoration: none;
     padding: 8px;   
-    transition: 0.5s;
+    transition: 0.3s;
     background-color: white;
 }
 
@@ -149,7 +149,7 @@ body {
     right: 10px;
     content: '»';
     opacity: 0;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .sbtn:hover {
@@ -275,11 +275,6 @@ body {
     content: "\f00c";
     font-family: fontAwesome;
     transition: 0.1s;
-}
-
-.btnbox {
-    display: flex;
-    justify-content: space-between;
 }
 
 .default {

@@ -1,6 +1,6 @@
 const router = new ApeeRouter()
 
-router.set(['login', 'home', 'register', 'about'])
+router.set(['home', 'login', 'register', 'about'])
 
 // 密码框小眼睛切换
 const passwords = document.querySelectorAll('.passwordBox')
