@@ -16,6 +16,43 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-md bg-success navbar-dark fixed-top">
+        <a class="navbar-brand" href="#/home">GodxuFonts</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <div class="p-1"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/home">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/zh">中文字体</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/en">英文字体</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#/pic">图形字体</a>
+                </li>
+                <li class="nav-item">
+                    <div class="p-2"></div>
+                </li>
+                <li class="nav-item">
+                    <div class="d-flex">
+                        <input type="text" class="form-control mr-2" placeholder="Search">
+                        <div class="p-1"></div>
+                        <button class="btn bg-light text-nowrap ml-2">搜索</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div data-route="login">
         <div class="borderbox">
             <div class="top">
@@ -35,7 +72,7 @@
                         <button type="submit" class="sbtn" id="loginbtn">确认登录</button>
                         <button type="button" class="sbtn" onclick="location='#/register'">前往注册</button>
                     </div>
-                </form>   
+                </form>
             </div>
             <div class="hr"></div>
             <div class="godxu">
@@ -45,20 +82,26 @@
                 <div class="from">
                     ——「 一言开发者中心 」
                 </div>
-            </div>    
+            </div>
         </div>
         <div class="sbottom">
             <div class="about">
                 <div class="code">
-                    <img referrerPolicy="no-referrer" src="https://p.ananas.chaoxing.com/star3/origin/64788dea4b89070135e7a13dda096b4f.png" alt="">
+                    <img referrerPolicy="no-referrer"
+                        src="https://p.ananas.chaoxing.com/star3/origin/64788dea4b89070135e7a13dda096b4f.png" alt="">
                 </div>
-                <img referrerPolicy="no-referrer" src="https://p.ananas.chaoxing.com/star3/origin/835444af1e238fbd95acd92723451c95.png" alt="" width="40px" class="icon vcode">
+                <img referrerPolicy="no-referrer"
+                    src="https://p.ananas.chaoxing.com/star3/origin/835444af1e238fbd95acd92723451c95.png" alt=""
+                    width="40px" class="icon vcode">
             </div>
             <div class="about">
                 <div class="code">
-                    <img referrerPolicy="no-referrer" src="https://p.ananas.chaoxing.com/star3/origin/6e967dd18a4198bd62f20f79c373ce6a.png" alt="">
+                    <img referrerPolicy="no-referrer"
+                        src="https://p.ananas.chaoxing.com/star3/origin/6e967dd18a4198bd62f20f79c373ce6a.png" alt="">
                 </div>
-                <img referrerPolicy="no-referrer" src="https://p.ananas.chaoxing.com/star3/origin/217a4ae91d62e76707716d614eb38c31.png" alt="" width="40px" class="icon">
+                <img referrerPolicy="no-referrer"
+                    src="https://p.ananas.chaoxing.com/star3/origin/217a4ae91d62e76707716d614eb38c31.png" alt=""
+                    width="40px" class="icon">
             </div>
             <div>友情链接：
                 <a href="https://hitokoto.cn/" class="yqlj" target="_blank">Hitokoto-一言</a>
@@ -74,14 +117,17 @@
             <div class="box">
                 <form action="" id="registerForm">
                     <div class="inputBox">
-                        <input type="text" class="nameBox" name="username" placeholder="用户名" autocomplete="off" onkeyup="userName(this.value)">
+                        <input type="text" class="nameBox" name="username" placeholder="用户名" autocomplete="off"
+                            onkeyup="userName(this.value)">
                     </div>
                     <div class="inputBox">
-                        <input type="password" class="passwordBox" name="password" placeholder="密码" onkeyup="checkPassword(this.value)">
+                        <input type="password" class="passwordBox" name="password" placeholder="密码"
+                            onkeyup="checkPassword(this.value)">
                         <span class="logoButton"></span>
                     </div>
                     <div class="checkBox">
-                        <input type="password" class="passwordBox" placeholder="确认密码" onkeyup="recheckPassword(this.value)">
+                        <input type="password" class="passwordBox" placeholder="确认密码"
+                            onkeyup="recheckPassword(this.value)">
                         <span class="logoButton"></span>
                     </div>
                     <div class="validation">
@@ -100,15 +146,36 @@
         </div>
     </div>
     <div data-route="home">
-        <h1>home</h1>
+
+
+        <div class="container mx-3">
+            666
+        </div>
+
         <div class="btn-group">
             <a type="button" class="btn btn-outline-secondary" href="#/login">Login</a>
             <a type="button" class="btn btn-outline-secondary" href="#/register">Register</a>
             <a type="button" class="btn btn-outline-secondary" href="#/about">About</a>
         </div>
     </div>
-    <div data-route="about">
-        <h1>about</h1>
+    <div data-route="zh">
+        <h1>zh</h1>
+        <div class="btn-group">
+            <a type="button" class="btn btn-outline-secondary" href="#/login">Login</a>
+            <a type="button" class="btn btn-outline-secondary" href="#/register">Register</a>
+            <a type="button" class="btn btn-outline-secondary" href="#/home">Home</a>
+        </div>
+    </div>
+    <div data-route="en">
+        <h1>en</h1>
+        <div class="btn-group">
+            <a type="button" class="btn btn-outline-secondary" href="#/login">Login</a>
+            <a type="button" class="btn btn-outline-secondary" href="#/register">Register</a>
+            <a type="button" class="btn btn-outline-secondary" href="#/home">Home</a>
+        </div>
+    </div>
+    <div data-route="pic">
+        <h1>pic</h1>
         <div class="btn-group">
             <a type="button" class="btn btn-outline-secondary" href="#/login">Login</a>
             <a type="button" class="btn btn-outline-secondary" href="#/register">Register</a>
