@@ -383,3 +383,10 @@ input[type="password"]::-o-clear {
 .font-img-down {
     min-width: 205px;
 }
+
+.hr-i {
+    margin: 8px 0 16px;
+    border: none;
+    border-top: 1px solid #999;
+    transform: scaleY(0.5);
+}
