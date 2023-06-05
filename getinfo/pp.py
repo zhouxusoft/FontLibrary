@@ -1,7 +1,5 @@
 import requests
 import pymysql
-import time
-import random
 
 # 数据库连接
 db = pymysql.connect(
