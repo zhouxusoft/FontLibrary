@@ -15,7 +15,7 @@ body {
     justify-content: center;
     align-items: center;
     padding-top: 100px;
-    background-color: white;
+    background-color: whitesmoke;
 }
 
 .borderbox {
@@ -329,4 +329,8 @@ input[type="password"]::-ms-clear {
 }
 input[type="password"]::-o-clear {
     display: none;
+}
+
+.bg-whitesmoke {
+    background-color: whitesmoke;
 }

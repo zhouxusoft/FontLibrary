@@ -1,6 +1,16 @@
 const router = new ApeeRouter()
+// 设置背景色
+const whiteBg = (route) => {
+    document.body.style.backgroundColor = 'white'
+}
+// 设置背景色
+const smokeBg = (route) => {
+    document.body.style.backgroundColor = 'whitesmoke'
+}
 
-router.set(['home', 'login', 'register', 'zh', 'en', 'pic'])
+// 定义路由
+router.set(['login', 'register'], whiteBg)
+router.set(['home', 'zh', 'en', 'pic'], smokeBg)
 
 // 密码框小眼睛切换
 const passwords = document.querySelectorAll('.passwordBox')
