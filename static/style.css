@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height:100vh;
+    padding-top: 100px;
     background-color: white;
 }
 
@@ -32,8 +32,20 @@ body {
     transform: scaleY(0.5);
 }
 
-.top {
+.ltop {
     margin: auto;
+    margin-top: 60px;
+    padding: 5px;
+    font-size: 24px;
+    width: 300px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #20252c;
+}
+
+.rtop {
+    margin: auto;
+    margin-top: 60px;
     padding: 5px;
     font-size: 24px;
     width: 300px;
