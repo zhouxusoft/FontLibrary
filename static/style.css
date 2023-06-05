@@ -339,6 +339,37 @@ input[type="password"]::-o-clear {
     font-weight: bold;
 }
 
+.font-top-type {
+    font-size: 0.8rem;
+}
+
 .font-img-box {
     height: 80px;
+}
+
+.font-img-viewnum {
+    font-size: 0.8rem;
+    color: #aaaaaa;
+}
+
+.fontstar {
+    width: 100px;
+}
+
+.fontstar::before {
+    content: "\f005";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 300;
+    margin-right: 6px;
+}
+
+.fontdownload {
+    width: 100px;
+}
+
+.fontdownload::before {
+    content: "\f019";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 800;
+    margin-right: 6px;
 }
