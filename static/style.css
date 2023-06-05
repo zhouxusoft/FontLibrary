@@ -390,3 +390,8 @@ input[type="password"]::-o-clear {
     border-top: 1px solid #999;
     transform: scaleY(0.5);
 }
+
+.font-top-title {
+    font-weight: bold;
+    color: #ffffff !important;
+}
