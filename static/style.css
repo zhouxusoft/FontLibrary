@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 100px;
+    padding-top: 80px;
     background-color: whitesmoke;
 }
 
@@ -34,7 +34,7 @@ body {
 
 .ltop {
     margin: auto;
-    margin-top: 60px;
+    margin-top: 80px;
     padding: 5px;
     font-size: 24px;
     width: 300px;
@@ -45,6 +45,7 @@ body {
 
 .rtop {
     margin: auto;
+    margin-top: 20px;
     padding: 5px;
     font-size: 24px;
     width: 300px;
@@ -376,7 +377,6 @@ input[type="password"]::-o-clear {
 }
 
 .font-img {
-    max-width: 787px;
     overflow: hidden;
 }
 
