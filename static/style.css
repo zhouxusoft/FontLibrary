@@ -345,6 +345,7 @@ input[type="password"]::-o-clear {
 
 .font-img-box {
     height: 80px;
+    overflow: hidden;
 }
 
 .font-img-viewnum {
@@ -372,4 +373,13 @@ input[type="password"]::-o-clear {
     font-family: "Font Awesome 6 Free";
     font-weight: 800;
     margin-right: 6px;
+}
+
+.font-img {
+    max-width: 787px;
+    overflow: hidden;
+}
+
+.font-img-down {
+    min-width: 205px;
 }
