@@ -60,6 +60,12 @@ def login():
             token = bcrypt.hashpw(access.encode('utf-8'), bcrypt.gensalt())
             accesstoken = access + token.decode('utf-8')
             # print(accesstoken)
+            # 将该用户原有的token删除
+            sql = "DELETE FROM `access-token` WHERE `userId` = %s"
+            val = (result[0][0])
+            dbcursor.execute(sql, val)
+            db.commit()
+            #将accesstoken存入数据库
             sql = "INSERT INTO `access-token` (`userId`, `token`) VALUES (%s, %s)"
             val = (result[0][0], accesstoken)
             dbcursor.execute(sql, val)
