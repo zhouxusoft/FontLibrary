@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import pymysql
+import bcrypt
 
 db = pymysql.connect(
     host="127.0.0.1",
@@ -38,7 +39,11 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    pass
+    data = request.get_json()
+    print(data)
+    hashed_password = bcrypt.hashpw(data.password.encode('utf-8'), bcrypt.gensalt())
+    print(hashed_password)
+    return jsonify({'success': True, 'userinfo': data})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

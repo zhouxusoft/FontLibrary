@@ -101,7 +101,7 @@ function checkPassword(data) {
         lengthCase.classList.remove('valid')
         checkPasswordOK = 0;
     }
-    
+
     recheckPassword(rpwd)
 
     inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
@@ -125,6 +125,34 @@ function recheckPassword(data) {
     inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
 }
 
+$('#loginbtn').click(function () {
+    var username = $('#usernameInput').val() // 获取用户名输入框的内容
+    var password = $('#passwordInput').val() // 获取密码输入框的内容
+    console.log('Username:', username)
+    console.log('Password:', password)
+    let toSend = {
+        name: username,
+        password: password,
+    }
+    if (username && password) {
+        $.ajax({
+            url: '/login',
+            type: 'POST',
+            data: JSON.stringify(toSend),
+            contentType: 'application/json',
+            success: function (response) {
+                //  console.log(response)
+                if (response.success == true) {
 
+                } else {
+                    alert(response.message)
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    }
+})
 
 router.start()
