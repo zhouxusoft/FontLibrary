@@ -128,10 +128,10 @@ function recheckPassword(data) {
 $('#loginbtn').click(function () {
     var username = $('#usernameInput').val() // 获取用户名输入框的内容
     var password = $('#passwordInput').val() // 获取密码输入框的内容
-    console.log('Username:', username)
-    console.log('Password:', password)
+    // console.log('Username:', username)
+    // console.log('Password:', password)
     let toSend = {
-        name: username,
+        username: username,
         password: password,
     }
     if (username && password) {
@@ -143,8 +143,10 @@ $('#loginbtn').click(function () {
             success: function (response) {
                 //  console.log(response)
                 if (response.success == true) {
-
+                    console.log('登陆成功')
+                    alert(response.message)
                 } else {
+                    console.log('登陆失败')
                     alert(response.message)
                 }
             },

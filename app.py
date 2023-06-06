@@ -41,9 +41,26 @@ def index():
 def login():
     data = request.get_json()
     print(data)
-    hashed_password = bcrypt.hashpw(data.password.encode('utf-8'), bcrypt.gensalt())
-    print(hashed_password)
-    return jsonify({'success': True, 'userinfo': data})
+    # 从用户表中查询用户， 并对密码作出判断
+    sql = "SELECT * FROM `usertable` WHERE username = %s"
+    val = (data['username'],)
+    dbcursor.execute(sql, val)
+    result = dbcursor.fetchall()
+    # 判断该用户名是否存在
+    if len(result) > 0:
+        # 将用户输入的密码转换为字节串
+        user_password_bytes = data['password'].encode('utf-8')
+        # 将数据库中的密码转换为字节串
+        hashed_passowrd = result[0][2].encode('utf-8')
+        # 使用 checkpw() 函数比较哈希值和用户输入的密码
+        is_password_match = bcrypt.checkpw(user_password_bytes, hashed_passowrd)
+        if is_password_match:
+            return jsonify({'success': True, 'message': '登陆成功'})
+        else:
+            return jsonify({'success': False, 'message': '用户名或密码不正确'})
+    else:
+        return jsonify({'success': False, 'message': '用户名或密码不正确'})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
