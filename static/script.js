@@ -3,7 +3,9 @@ const router = new ApeeRouter()
 // 获得当前页面的路由
 let currentRoute = ''
 // 设置当前的页码
-let currentPage = 0
+let currentPage = 1
+// 存储当前页的字体
+let currentFonts = []
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -17,10 +19,13 @@ const smokeBg = (route) => {
 }
 
 const homePage = (route) => {
-    console.log(router.routeList.home.args[0])
-    if (args[0]) {
-        
+    page = parseInt(router.routeList.home.args[0])
+    if (Number.isInteger(page) && page > 0 && page < 9) {
+        currentPage = page
+    } else {
+        currentPage = 1
     }
+    console.log('当前第', currentPage, '页')
 }
 
 // 定义路由
