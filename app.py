@@ -59,13 +59,13 @@ def login():
             access = f'${result[0][3]}${result[0][0]}'
             token = bcrypt.hashpw(access.encode('utf-8'), bcrypt.gensalt())
             accesstoken = access + token.decode('utf-8')
-            print(accesstoken)
+            # print(accesstoken)
             sql = "INSERT INTO `access-token` (`userId`, `token`) VALUES (%s, %s)"
             val = (result[0][0], accesstoken)
             dbcursor.execute(sql, val)
             db.commit()
             response = make_response(jsonify({'success': True, 'message': '登陆成功'}))
-            response.set_cookie('access-token', accesstoken, max_age=3600, httponly=True)
+            response.set_cookie('access-token', accesstoken, max_age=15*24*3600, httponly=True)
             return response
         else:
             return jsonify({'success': False, 'message': '用户名或密码不正确'})
@@ -90,5 +90,7 @@ def register():
         dbcursor.execute(sql, val)
         db.commit()
         return jsonify({'success': True, 'message': '注册成功'})
+    
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

@@ -145,10 +145,6 @@ $('#loginbtn').click(function () {
                 if (response.success == true) {
                     // console.log('登陆成功')
                     alert(response.message)
-                    /**
-                     * 设置cookie
-                     */
-                    document.cookie = `access-token=${response.accesstoken}; max-age=60; path=/; HttpOnly`
                 } else {
                     // console.log('登陆失败')
                     alert(response.message)
@@ -162,7 +158,6 @@ $('#loginbtn').click(function () {
 })
 
 $('#registerbtn').click(function () {
-    console.log(666)
     let username = $('#rusernameInput').val() // 获取用户名输入框的内容
     let password = $('#rpasswordInput').val() // 获取密码输入框的内容
     let toSend = {
