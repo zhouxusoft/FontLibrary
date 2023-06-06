@@ -126,8 +126,8 @@ function recheckPassword(data) {
 }
 
 $('#loginbtn').click(function () {
-    var username = $('#usernameInput').val() // 获取用户名输入框的内容
-    var password = $('#passwordInput').val() // 获取密码输入框的内容
+    let username = $('#usernameInput').val() // 获取用户名输入框的内容
+    let password = $('#passwordInput').val() // 获取密码输入框的内容
     // console.log('Username:', username)
     // console.log('Password:', password)
     let toSend = {
@@ -136,7 +136,38 @@ $('#loginbtn').click(function () {
     }
     if (username && password) {
         $.ajax({
-            url: '/login',
+            url: '/register',
+            type: 'POST',
+            data: JSON.stringify(toSend),
+            contentType: 'application/json',
+            success: function (response) {
+                //  console.log(response)
+                if (response.success == true) {
+                    console.log('登陆成功')
+                    alert(response.message)
+                } else {
+                    console.log('登陆失败')
+                    alert(response.message)
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    }
+})
+
+$('#registerbtn').click(function () {
+    console.log(666)
+    let username = $('#rusernameInput').val() // 获取用户名输入框的内容
+    let password = $('#rpasswordInput').val() // 获取密码输入框的内容
+    let toSend = {
+        username: username,
+        password: password,
+    }
+    if (username && password) {
+        $.ajax({
+            url: '/register',
             type: 'POST',
             data: JSON.stringify(toSend),
             contentType: 'application/json',

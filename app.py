@@ -61,6 +61,23 @@ def login():
     else:
         return jsonify({'success': False, 'message': '用户名或密码不正确'})
 
-
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    print(data)
+    sql = "SELECT * FROM `usertable` WHERE username = %s"
+    val = (data['username'],)
+    dbcursor.execute(sql, val)
+    result = dbcursor.fetchall()
+    # 判断该用户名是否存在
+    if len(result) > 0:
+        return jsonify({'success': False, 'message': '用户名已存在'})
+    else:
+        hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+        sql = "INSERT INTO `usertable` (`username`, `password`, `nickname`) VALUES (%s, %s, %s)"
+        val = (data['username'], hashed_password, data['username'])
+        dbcursor.execute(sql, val)
+        db.commit()
+        return jsonify({'success': True, 'message': '注册成功'})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
