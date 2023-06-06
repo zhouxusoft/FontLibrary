@@ -26,11 +26,9 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `hotfont` (\
                     ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;")
 
 
-sql = 'SELECT * FROM `fontdata` ORDER BY `font_viewnum` DESC LIMIT 100'
+sql = 'SELECT * FROM `fontdata` ORDER BY `font_viewnum` DESC LIMIT 120'
 dbcursor.execute(sql)
 result = dbcursor.fetchall()
-
-print(result[0])
 
 for i in result:
     sql = "INSERT INTO `hotfont` (id, font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"

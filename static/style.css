@@ -403,3 +403,27 @@ input[type="password"]::-o-clear {
 .navbar-nav .nav-link:focus {
     color: rgba(255,255,255) !important;
 }
+
+.font-home-hot {
+    color: #152b4d;
+}
+
+.font-home-hot-title {
+    margin: auto;
+    width: fit-content;
+    font-weight: 500;
+    font-size: 1.375rem;
+}
+
+.font-home-hot-num {
+    margin: auto;
+    width: fit-content;
+    font-size: 0.875rem;
+}
+
+.font-home-hot-num span{
+    margin: auto;
+    width: fit-content;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
