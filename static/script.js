@@ -51,6 +51,7 @@ let rpwd
 let username
 let userNameOK, checkPasswordOK, recheckPasswordOK = 0
 
+// 判断输入是否都正确
 function inputOK(userNameOK, checkPasswordOK, recheckPasswordOK) {
     let a = userNameOK
     let b = checkPasswordOK
@@ -65,7 +66,6 @@ function inputOK(userNameOK, checkPasswordOK, recheckPasswordOK) {
         rbtn.classList.add('default')
     }
 }
-
 //用于检测输入是否有空白符
 function hasWhiteSpace(str) {
     return /\s/g.test(str);
@@ -124,7 +124,7 @@ function recheckPassword(data) {
 
     inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
 }
-
+// 登录功能
 $('#loginbtn').click(function () {
     let username = $('#usernameInput').val() // 获取用户名输入框的内容
     let password = $('#passwordInput').val() // 获取密码输入框的内容
@@ -156,7 +156,7 @@ $('#loginbtn').click(function () {
         })
     }
 })
-
+// 注册功能
 $('#registerbtn').click(function () {
     let username = $('#rusernameInput').val() // 获取用户名输入框的内容
     let password = $('#rpasswordInput').val() // 获取密码输入框的内容
