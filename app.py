@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, make_response
 import pymysql
 import bcrypt
 
@@ -40,7 +40,7 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    print(data)
+    # print(data)
     # 从用户表中查询用户， 并对密码作出判断
     sql = "SELECT * FROM `usertable` WHERE username = %s"
     val = (data['username'],)
@@ -55,7 +55,18 @@ def login():
         # 使用 checkpw() 函数比较哈希值和用户输入的密码
         is_password_match = bcrypt.checkpw(user_password_bytes, hashed_passowrd)
         if is_password_match:
-            return jsonify({'success': True, 'message': '登陆成功'})
+            # 生成accesstoken
+            access = f'${result[0][3]}${result[0][0]}'
+            token = bcrypt.hashpw(access.encode('utf-8'), bcrypt.gensalt())
+            accesstoken = access + token.decode('utf-8')
+            print(accesstoken)
+            sql = "INSERT INTO `access-token` (`userId`, `token`) VALUES (%s, %s)"
+            val = (result[0][0], accesstoken)
+            dbcursor.execute(sql, val)
+            db.commit()
+            response = make_response(jsonify({'success': True, 'message': '登陆成功'}))
+            response.set_cookie('access-token', accesstoken, max_age=3600, httponly=True)
+            return response
         else:
             return jsonify({'success': False, 'message': '用户名或密码不正确'})
     else:
@@ -64,14 +75,14 @@ def login():
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    print(data)
+    # print(data)
     sql = "SELECT * FROM `usertable` WHERE username = %s"
     val = (data['username'],)
     dbcursor.execute(sql, val)
     result = dbcursor.fetchall()
     # 判断该用户名是否存在
     if len(result) > 0:
-        return jsonify({'success': False, 'message': '用户名已存在'})
+        return jsonify({'success': False, 'message': '注册失败\n用户名已存在'})
     else:
         hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
         sql = "INSERT INTO `usertable` (`username`, `password`, `nickname`) VALUES (%s, %s, %s)"

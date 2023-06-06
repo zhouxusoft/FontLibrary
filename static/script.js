@@ -136,17 +136,21 @@ $('#loginbtn').click(function () {
     }
     if (username && password) {
         $.ajax({
-            url: '/register',
+            url: '/login',
             type: 'POST',
             data: JSON.stringify(toSend),
             contentType: 'application/json',
             success: function (response) {
                 //  console.log(response)
                 if (response.success == true) {
-                    console.log('登陆成功')
+                    // console.log('登陆成功')
                     alert(response.message)
+                    /**
+                     * 设置cookie
+                     */
+                    document.cookie = `access-token=${response.accesstoken}; max-age=60; path=/; HttpOnly`
                 } else {
-                    console.log('登陆失败')
+                    // console.log('登陆失败')
                     alert(response.message)
                 }
             },
@@ -174,10 +178,8 @@ $('#registerbtn').click(function () {
             success: function (response) {
                 //  console.log(response)
                 if (response.success == true) {
-                    console.log('登陆成功')
                     alert(response.message)
                 } else {
-                    console.log('登陆失败')
                     alert(response.message)
                 }
             },
