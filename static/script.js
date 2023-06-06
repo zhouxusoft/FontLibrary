@@ -174,8 +174,9 @@ $('#registerbtn').click(function () {
                 //  console.log(response)
                 if (response.success == true) {
                     alert(response.message)
+                    location.href = '#/login'
                 } else {
-                    alert(response.message)
+                    alert('服务器开小差了\n请稍后再试')
                 }
             },
             error: function (error) {
