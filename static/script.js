@@ -1,16 +1,25 @@
 const router = new ApeeRouter()
+
+// 获得当前页面的路由
+let currentPage = ''
+
 // 设置背景色
 const whiteBg = (route) => {
     document.body.style.backgroundColor = 'white'
+    currentPage = router.getNowRouteName()
 }
 // 设置背景色
 const smokeBg = (route) => {
     document.body.style.backgroundColor = 'whitesmoke'
+    currentPage = router.getNowRouteName()
 }
 
 // 定义路由
 router.set(['login', 'register'], whiteBg)
-router.set(['home', 'zh', 'en', 'pic'], smokeBg)
+router.set('home', [smokeBg,])
+router.set('zh', [smokeBg,])
+router.set('en', [smokeBg,])
+router.set('pic', [smokeBg,])
 
 // 密码框小眼睛切换
 const passwords = document.querySelectorAll('.passwordBox')
@@ -185,5 +194,7 @@ $('#registerbtn').click(function () {
         })
     }
 })
+
+
 
 router.start()
