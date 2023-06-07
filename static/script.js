@@ -149,6 +149,8 @@ function setFonts() {
         console.log(fontId)
         if (clickedId == 'fontdownload') {
             getDownloadUrl(fontId)
+        } else if (clickedId == 'fontcollect') {
+            fontCollect(fontid)
         }
     })
     
