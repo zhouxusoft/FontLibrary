@@ -26,6 +26,22 @@ const homePage = (route) => {
         currentPage = 1
     }
     console.log('当前第', currentPage, '页')
+    let toSend = {
+        page: currentPage,
+        type: currentRoute
+    }
+    $.ajax({
+        url: '/getFont',
+        type: 'POST',
+        data: JSON.stringify(toSend),
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response.data)
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
 }
 
 // 定义路由

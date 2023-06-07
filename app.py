@@ -96,7 +96,35 @@ def register():
         dbcursor.execute(sql, val)
         db.commit()
         return jsonify({'success': True, 'message': '注册成功'})
-    
+
+@app.route('/getFont', methods=['POST']) 
+def getFont():
+    data = request.get_json()
+    getId = 15 * (data['page'] - 1) + 1
+    if data['type'] == 'en':
+        getId = getId + 7736
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 39231 ORDER BY id LIMIT 15"
+        val = (getId,)
+        dbcursor.execute(sql, val)
+        result = dbcursor.fetchall()
+    elif data['type'] == 'pic':
+        getId = getId + 39231
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s ORDER BY id LIMIT 15"
+        val = (getId,)
+        dbcursor.execute(sql, val)
+        result = dbcursor.fetchall()
+    elif data['type'] == 'home':
+        getId = getId - 1
+        sql = "SELECT * FROM `hotfont` LIMIT 15 OFFSET %s"
+        val = (getId,)
+        dbcursor.execute(sql, val)
+        result = dbcursor.fetchall()
+    else:
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 7736 ORDER BY id LIMIT 15"
+        val = (getId,)
+        dbcursor.execute(sql, val)
+        result = dbcursor.fetchall()
+    return jsonify({'success': True, 'data': result})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
