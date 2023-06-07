@@ -8,6 +8,8 @@ let currentPage = 1
 let currentFonts = []
 // 存储下载链接
 let downloadUrl = ''
+// 存储用户的收藏列表
+let userCollect = []
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -19,6 +21,7 @@ const smokeBg = (route) => {
     document.body.style.backgroundColor = 'whitesmoke'
     currentRoute = router.getNowRouteName()
     $("html, body").animate({ scrollTop: 0 }, 300)
+    getCollect()
 }
 
 function getMaxPage() {
@@ -111,8 +114,72 @@ function getDownloadUrl(fontid) {
     })
 }
 
+function getCollect() {
+    $.ajax({
+        url: '/getCollect',
+        type: 'POST',
+        contentType: 'application/json',
+        async: false,
+        success: function (response) {
+            if (response.success == true) {
+                userCollect = response.data
+            } else {
+                userCollect = []
+            }
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
+}
+
 function fontCollect(fontid) {
-    
+    // 判断当前字体的id
+    for (let i = 0; i < currentFonts.length; i++) {
+        if (currentFonts[i][2] == fontid) {
+            fontid = currentFonts[i][0]
+            break
+        }
+    }
+    let toSend = {
+        fontid: fontid,
+    }
+    let collectFlag = 0
+    // 判断当前字体收藏状态
+    for (let i = 0; i < userCollect.length; i++) {
+        if (userCollect[i][2] == fontid) {
+            collectFlag = 1
+            toSend.collectid = userCollect[i][0]
+            break
+        }
+    }
+    toSend.flag = collectFlag
+    // 更新前端显示效果
+    if (collectFlag) {
+        let select = '[data-font-id="' + fontid + '"]'
+        $(select).find('span').css('font-weight', '300')
+    } else {
+        let select = '[data-font-id="' + fontid + '"]'
+        $(select).find('span').css('font-weight', '600')
+    }
+    // 发送收藏修改请求
+    $.ajax({
+        url: '/changeCollect',
+        type: 'POST',
+        data: JSON.stringify(toSend),
+        contentType: 'application/json',
+        async: false,
+        success: function (response) {
+            if (response.success == true) {
+                getCollect()
+            } else {
+                alert(response.data)
+            }
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
 }
 
 function setFonts() {
@@ -140,7 +207,7 @@ function setFonts() {
                             <img src="${element[4]}" class="img-fluid" alt="">
                         </div>
                         <div class="font-img-down d-none d-sm-block">
-                            <button class="btn btn-primary mr-2 fontstar" id="fontcollect"><span class="collect-font">\uf005</span>收藏</button>
+                            <button class="btn btn-primary mr-2 fontstar" id="fontcollect" data-font-id="${element[0]}"><span class="collect-font">\uf005</span>收藏</button>
                             <button class="btn btn-success fontdownload" id="fontdownload" disabled>下载</button>
                             <div class="text-dark d-flex justify-content-end pt-3">
                                 <span class="font-img-viewnum">共${element[7]}次浏览</span>
@@ -162,7 +229,7 @@ function setFonts() {
                             <img src="${element[4]}" class="img-fluid" alt="">
                         </div>
                         <div class="font-img-down d-none d-sm-block">
-                            <button class="btn btn-primary mr-2 fontstar" id="fontcollect"><span class="collect-font">\uf005</span>收藏</button>
+                            <button class="btn btn-primary mr-2 fontstar" id="fontcollect" data-font-id="${element[0]}"><span class="collect-font">\uf005</span>收藏</button>
                             <button class="btn btn-success fontdownload" id="fontdownload">下载</button>
                             <div class="text-dark d-flex justify-content-end pt-3">
                                 <span class="font-img-viewnum">共${element[7]}次浏览</span>
@@ -172,7 +239,14 @@ function setFonts() {
                 </div>
             `)           
         }   
+        for (let j = 0; j < userCollect.length; j++) {
+            if (userCollect[j][2] == element[0]) {
+                let select = '[data-font-id="' + element[0] + '"]'
+                $(select).find('span').css('font-weight', '600')
+            } 
+        }
     }
+    console.log(userCollect);
     $('.font-img-down').on('click', 'button', function () {
         let clickedId = $(this).attr("id")
         let fontId = $(this).closest('.fontdata-border-box').data("font-number")
@@ -180,7 +254,7 @@ function setFonts() {
         if (clickedId == 'fontdownload') {
             getDownloadUrl(fontId)
         } else if (clickedId == 'fontcollect') {
-            fontCollect(fontid)
+            fontCollect(fontId)
         }
     })
     

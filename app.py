@@ -32,6 +32,13 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `usertable`  (\
                     `createtime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
                     PRIMARY KEY (`id`) USING BTREE\
                     ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;")
+dbcursor.execute("CREATE TABLE IF NOT EXISTS `fontcollect`  (\
+                    `id` int NOT NULL AUTO_INCREMENT,\
+                    `user_id` int NULL DEFAULT NULL,\
+                    `font_id` int NULL DEFAULT NULL,\
+                    `set_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
+                    PRIMARY KEY (`id`) USING BTREE\
+                    ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;")
 
 app = Flask(__name__)
 
@@ -169,6 +176,48 @@ def download():
             return jsonify({'success': False, 'data': response.status_code})
     else:
         return jsonify({'success': False, 'data': 'cookieErr', 'message': check['message']})
+    
+'''
+    获取收藏列表
+'''
+@app.route('/getCollect', methods=['POST'])
+def getCollect():
+    token = request.cookies.get('access-token')
+    # print(token)
+    check = checkCookie(token)
+    if check['success']:
+        userid = int(token.split('$')[2])
+        sql = "SELECT * FROM `fontcollect` WHERE `user_id` = %s"
+        val = (userid,)
+        dbcursor.execute(sql, val)
+        result = dbcursor.fetchall()
+        return jsonify({'success': True, 'data': result})
+    else:
+        return jsonify({'success': False, 'data': []})
+    
+'''
+    更新收藏列表
+'''
+@app.route('/changeCollect', methods=['POST'])
+def changeCollect():
+    data = request.get_json()
+    token = request.cookies.get('access-token')
+    check = checkCookie(token)
+    if check['success']:
+        userid = int(token.split('$')[2])
+        if data['flag'] == 0:
+            sql = "INSERT INTO `fontcollect` (`user_id`, `font_id`) VALUES (%s, %s)"
+            val = (userid, data['fontid'])
+            dbcursor.execute(sql, val)
+            db.commit()
+        if data['flag'] == 1:
+            sql = "DELETE FROM `fontcollect` WHERE id = %s"
+            val = (data['collectid'],)
+            dbcursor.execute(sql, val)
+            db.commit()
+        return jsonify({'success': True, 'data': ''})
+    else:
+        return jsonify({'success': False, 'data': '登陆后方可使用收藏功能'})
 
 def checkCookie(token):
     sql = "SELECT * FROM `access-token` WHERE `token` = %s"
