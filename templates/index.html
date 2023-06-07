@@ -201,6 +201,34 @@
         </div>
     </div>
 
+    <!-- downloadModal -->
+    <button style="display: none" id="downloadbtn" data-bs-toggle="modal"
+        data-bs-target="#downloadmodal"></button>
+    <div class="modal fade" id="downloadmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">字体下载：</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="downloadfontinfo">
+                        <img src="" class="img-fluid" alt="" id="downloadfontimg">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="downloadbtnbox">
+                        <button type="button" class="btn btn-outline-secondary secondbtn" data-bs-dismiss="modal"
+                            id="yesdownload">&nbsp;下载&nbsp;</button>
+                        <button type="button" class="btn btn-outline-secondary secondbtn" data-bs-dismiss="modal"
+                            id="closedownloadfilemodal">&nbsp;取消&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none" id="iframe_box"></div>
+
     <script src="../static/script.js"></script>
 </body>
 

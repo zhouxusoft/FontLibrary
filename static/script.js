@@ -6,6 +6,8 @@ let currentRoute = ''
 let currentPage = 1
 // 存储当前页的字体
 let currentFonts = []
+// 存储下载链接
+let downloadUrl = ''
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -58,6 +60,27 @@ function setShowPage() {
     $('.current-page').text(currentPage)
 }
 
+function showDownload(fontid) {
+    for (let i = 0; i < currentFonts.length; i++) {
+        if (currentFonts[i][2] == fontid) {
+            $('#downloadfontimg').prop('src', currentFonts[i][4])
+            break
+        }
+    }
+    $('#downloadbtn').click()
+    $('#yesdownload').click(function () {
+        downloadFont()
+    })
+}
+
+function downloadFont() {
+    let iframe_box = document.querySelector('#iframe_box')
+    while (iframe_box.firstChild) {
+        iframe_box.removeChild(iframe_box.firstChild)
+    }
+    iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
+}
+
 function getDownloadUrl(fontid) {
     let toSend = {
         id: fontid,
@@ -71,6 +94,8 @@ function getDownloadUrl(fontid) {
         success: function (response) {
             if (response.success == true) {
                 console.log(response.data)
+                downloadUrl = response.data
+                showDownload(fontid)
             } else {
                 alert('服务器开小差了\n请稍后再试')
             }

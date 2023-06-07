@@ -149,8 +149,9 @@ for j in range(1, 774):
             fontImg = 'https:' + fontImg.split('"')[0]
             print('字体图片：', fontImg)
             # 分割出字体可下载信息
-            fontDownload = i.split('icon-download">')
-            if len(fontDownload) > 1:
+            fontDownload1 = i.split('icon-download">')
+            fontDownload2 = i.split('<span class="_sp">')
+            if len(fontDownload1) > 1 and len(fontDownload2) < 2:
                 fontDownload = 1
             else:
                 fontDownload = 0
@@ -240,8 +241,9 @@ for j in range(1, 3151):
             fontImg = 'https:' + fontImg.split('"')[0]
             print('字体图片：', fontImg)
             # 分割出字体可下载信息
-            fontDownload = i.split('icon-download">')
-            if len(fontDownload) > 1:
+            fontDownload1 = i.split('icon-download">')
+            fontDownload2 = i.split('<span class="_sp">')
+            if len(fontDownload1) > 1 and len(fontDownload2) < 2:
                 fontDownload = 1
             else:
                 fontDownload = 0
@@ -330,8 +332,9 @@ for j in range(1, 263):
             fontImg = 'https:' + fontImg.split('"')[0]
             print('字体图片：', fontImg)
             # 分割出字体可下载信息
-            fontDownload = i.split('icon-download">')
-            if len(fontDownload) > 1:
+            fontDownload1 = i.split('icon-download">')
+            fontDownload2 = i.split('<span class="_sp">')
+            if len(fontDownload1) > 1 and len(fontDownload2) < 2:
                 fontDownload = 1
             else:
                 fontDownload = 0
