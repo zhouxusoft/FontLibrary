@@ -16,7 +16,6 @@ const whiteBg = (route) => {
 const smokeBg = (route) => {
     document.body.style.backgroundColor = 'whitesmoke'
     currentRoute = router.getNowRouteName()
-    setShowPage()
     $("html, body").animate({ scrollTop: 0 }, 300)
 }
 
@@ -44,7 +43,7 @@ function getFonts() {
         contentType: 'application/json',
         async: false,
         success: function (response) {
-            console.log(response.data)
+            // console.log(response.data)
             currentFonts = response.data
         },
         error: function (error) {
@@ -104,6 +103,7 @@ const homePage = (route) => {
     }
     // console.log('当前第', currentPage, '页')
     getFonts()
+    setShowPage()
 }
 
 const zhPage = (route) => {
@@ -115,6 +115,7 @@ const zhPage = (route) => {
     }
     // console.log('当前第', currentPage, '页')
     getFonts()
+    setShowPage()
 }
 
 const enPage = (route) => {
@@ -126,6 +127,7 @@ const enPage = (route) => {
     }
     // console.log('当前第', currentPage, '页')
     getFonts()
+    setShowPage()
 }
 
 const picPage = (route) => {
@@ -137,6 +139,7 @@ const picPage = (route) => {
     }
     // console.log('当前第', currentPage, '页')
     getFonts()
+    setShowPage()
 }
 
 // 定义路由
