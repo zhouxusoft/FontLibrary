@@ -358,8 +358,7 @@ input[type="password"]::-o-clear {
     width: 100px;
 }
 
-.fontstar::before {
-    content: "\f005";
+.collect-font {
     font-family: "Font Awesome 6 Free";
     font-weight: 300;
     margin-right: 6px;

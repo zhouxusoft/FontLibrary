@@ -58,30 +58,31 @@ function setShowPage() {
     $('.current-page').text(currentPage)
 }
 
-function getDownloadUrl(params) {
-    $('.fontdownload').click(function () {
-        console.log(666)
-        let toSend = {
-            id: '42183327657',
-            type: 'font'
-        }
-        $.ajax({
-            url: '/download',
-            type: 'POST',
-            data: JSON.stringify(toSend),
-            contentType: 'application/json',
-            success: function (response) {
-                if (response.success == true) {
-                    console.log(response.data)
-                } else {
-                    alert('服务器开小差了\n请稍后再试')
-                }
-            },
-            error: function (error) {
-                console.log(error)
+function getDownloadUrl(fontid) {
+    let toSend = {
+        id: fontid,
+        type: 'font'
+    }
+    $.ajax({
+        url: '/download',
+        type: 'POST',
+        data: JSON.stringify(toSend),
+        contentType: 'application/json',
+        success: function (response) {
+            if (response.success == true) {
+                console.log(response.data)
+            } else {
+                alert('服务器开小差了\n请稍后再试')
             }
-        })
+        },
+        error: function (error) {
+            console.log(error)
+        }
     })
+}
+
+function fontCollect(fontid) {
+    
 }
 
 function setFonts() {
@@ -96,29 +97,61 @@ function setFonts() {
         } else {
             element[3] = '图形字体'
         }
-        $(select).append(`
-            <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box">
-                <div class="text-dark d-flex align-items-center justify-content-between">
-                    <span class="font-top-name">${element[1]}</span>
-                    <span class="font-top-type">${element[3]}</span>
-                </div>
-                <div class="hr-i"></div>
-                <div class="font-img-box d-flex align-items-center justify-content-between">
-                    <div class="font-img">
-                        <img src="${element[4]}" class="img-fluid" alt="">
+        if (element[6] == 0) {
+            $(select).append(`
+                <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box" data-font-number="${element[2]}">
+                    <div class="text-dark d-flex align-items-center justify-content-between">
+                        <span class="font-top-name">${element[1]}</span>
+                        <span class="font-top-type">${element[3]}</span>
                     </div>
-                    <div class="font-img-down d-none d-sm-block" font-number="${element[2]}">
-                        <button class="btn btn-primary mr-2 fontstar">收藏</button>
-                        <button class="btn btn-success fontdownload">下载</button>
-                        <div class="text-dark d-flex justify-content-end pt-3">
-                            <span class="font-img-viewnum">共${element[7]}次浏览</span>
+                    <div class="hr-i"></div>
+                    <div class="font-img-box d-flex align-items-center justify-content-between">
+                        <div class="font-img">
+                            <img src="${element[4]}" class="img-fluid" alt="">
+                        </div>
+                        <div class="font-img-down d-none d-sm-block">
+                            <button class="btn btn-primary mr-2 fontstar" id="fontcollect"><span class="collect-font">\uf005</span>收藏</button>
+                            <button class="btn btn-success fontdownload" id="fontdownload" disabled>下载</button>
+                            <div class="text-dark d-flex justify-content-end pt-3">
+                                <span class="font-img-viewnum">共${element[7]}次浏览</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `)
+            `)
+        } else {
+            $(select).append(`
+                <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box" data-font-number="${element[2]}">
+                    <div class="text-dark d-flex align-items-center justify-content-between">
+                        <span class="font-top-name">${element[1]}</span>
+                        <span class="font-top-type">${element[3]}</span>
+                    </div>
+                    <div class="hr-i"></div>
+                    <div class="font-img-box d-flex align-items-center justify-content-between">
+                        <div class="font-img">
+                            <img src="${element[4]}" class="img-fluid" alt="">
+                        </div>
+                        <div class="font-img-down d-none d-sm-block">
+                            <button class="btn btn-primary mr-2 fontstar" id="fontcollect"><span class="collect-font">\uf005</span>收藏</button>
+                            <button class="btn btn-success fontdownload" id="fontdownload">下载</button>
+                            <div class="text-dark d-flex justify-content-end pt-3">
+                                <span class="font-img-viewnum">共${element[7]}次浏览</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `)           
+        }   
     }
-    getDownloadUrl()
+    $('.font-img-down').on('click', 'button', function () {
+        let clickedId = $(this).attr("id")
+        let fontId = $(this).closest('.fontdata-border-box').data("font-number")
+        console.log(fontId)
+        if (clickedId == 'fontdownload') {
+            getDownloadUrl(fontId)
+        }
+    })
+    
 }
 
 const homePage = (route) => {

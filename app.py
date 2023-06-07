@@ -144,8 +144,11 @@ def download():
     response = requests.post(url, data=data)
     # 获取响应结果
     if response.status_code == 200:
-        result = response.json()['data']['url']
-        return jsonify({'success': True, 'data': result})
+        if response.json()['success'] == True:
+            result = response.json()['data']['url']
+            return jsonify({'success': True, 'data': result})
+        else:
+            return jsonify({'success': False, 'data': response.status_code})
     else:
         return jsonify({'success': False, 'data': response.status_code})
 
