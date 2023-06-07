@@ -98,6 +98,7 @@ function getDownloadUrl(fontid) {
                 showDownload(fontid)
             } else {
                 if (response.data == 'cookieErr') {
+                    clearCookie("access-token")
                     alert(response.message)
                 } else {
                     alert('服务器开小差了\n请稍后再试')
@@ -366,6 +367,12 @@ function recheckPassword(data) {
 
     inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
 }
+
+// 清除cookie
+function clearCookie(cookieName) {
+    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
 // 登录功能
 $('#loginbtn').click(function () {
     let username = $('#usernameInput').val() // 获取用户名输入框的内容

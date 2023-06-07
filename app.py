@@ -150,7 +150,7 @@ def getFont():
 @app.route('/download', methods=['POST'])
 def download():
     token = request.cookies.get('access-token')
-    print(token)
+    # print(token)
     check = checkCookie(token)
     if check['success']:
         data = request.get_json()
