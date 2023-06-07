@@ -43,7 +43,7 @@ function getFonts() {
         contentType: 'application/json',
         async: false,
         success: function (response) {
-            // console.log(response.data)
+            // console.table(response.data)
             currentFonts = response.data
         },
         error: function (error) {
@@ -56,6 +56,32 @@ function getFonts() {
 function setShowPage() {
     $('.all-page').text(getMaxPage())
     $('.current-page').text(currentPage)
+}
+
+function getDownloadUrl(params) {
+    $('.fontdownload').click(function () {
+        console.log(666)
+        let toSend = {
+            id: '42183327657',
+            type: 'font'
+        }
+        $.ajax({
+            url: '/download',
+            type: 'POST',
+            data: JSON.stringify(toSend),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success == true) {
+                    console.log(response.data)
+                } else {
+                    alert('服务器开小差了\n请稍后再试')
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        })
+    })
 }
 
 function setFonts() {
@@ -71,7 +97,7 @@ function setFonts() {
             element[3] = '图形字体'
         }
         $(select).append(`
-            <div class="col-sm-12 p-3 my-2 rounded bg-white text-white">
+            <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box">
                 <div class="text-dark d-flex align-items-center justify-content-between">
                     <span class="font-top-name">${element[1]}</span>
                     <span class="font-top-type">${element[3]}</span>
@@ -81,7 +107,7 @@ function setFonts() {
                     <div class="font-img">
                         <img src="${element[4]}" class="img-fluid" alt="">
                     </div>
-                    <div class="font-img-down d-none d-sm-block">
+                    <div class="font-img-down d-none d-sm-block" font-number="${element[2]}">
                         <button class="btn btn-primary mr-2 fontstar">收藏</button>
                         <button class="btn btn-success fontdownload">下载</button>
                         <div class="text-dark d-flex justify-content-end pt-3">
@@ -92,6 +118,7 @@ function setFonts() {
             </div>
         `)
     }
+    getDownloadUrl()
 }
 
 const homePage = (route) => {

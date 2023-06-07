@@ -446,3 +446,11 @@ input[type="password"]::-o-clear {
     font-weight: 600;
     margin-left: 6px;
 }
+
+.fontdata-border-box {
+    transition: 0.2s;
+}
+
+.fontdata-border-box:hover {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}

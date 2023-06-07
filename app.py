@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import pymysql
 import bcrypt
+import requests
 
 db = pymysql.connect(
     host="127.0.0.1",
@@ -37,6 +38,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -53,7 +55,8 @@ def login():
         # 将数据库中的密码转换为字节串
         hashed_passowrd = result[0][2].encode('utf-8')
         # 使用 checkpw() 函数比较哈希值和用户输入的密码
-        is_password_match = bcrypt.checkpw(user_password_bytes, hashed_passowrd)
+        is_password_match = bcrypt.checkpw(
+            user_password_bytes, hashed_passowrd)
         if is_password_match:
             # 生成accesstoken
             access = f'${result[0][3]}${result[0][0]}'
@@ -65,18 +68,21 @@ def login():
             val = (result[0][0])
             dbcursor.execute(sql, val)
             db.commit()
-            #将accesstoken存入数据库
+            # 将accesstoken存入数据库
             sql = "INSERT INTO `access-token` (`userId`, `token`) VALUES (%s, %s)"
             val = (result[0][0], accesstoken)
             dbcursor.execute(sql, val)
             db.commit()
-            response = make_response(jsonify({'success': True, 'message': '登陆成功'}))
-            response.set_cookie('access-token', accesstoken, max_age=15*24*3600, httponly=True)
+            response = make_response(
+                jsonify({'success': True, 'message': '登陆成功'}))
+            response.set_cookie('access-token', accesstoken,
+                                max_age=15*24*3600, httponly=True)
             return response
         else:
             return jsonify({'success': False, 'message': '用户名或密码不正确'})
     else:
         return jsonify({'success': False, 'message': '用户名或密码不正确'})
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -90,14 +96,16 @@ def register():
     if len(result) > 0:
         return jsonify({'success': False, 'message': '注册失败\n用户名已存在'})
     else:
-        hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(
+            data['password'].encode('utf-8'), bcrypt.gensalt())
         sql = "INSERT INTO `usertable` (`username`, `password`, `nickname`) VALUES (%s, %s, %s)"
         val = (data['username'], hashed_password, data['username'])
         dbcursor.execute(sql, val)
         db.commit()
         return jsonify({'success': True, 'message': '注册成功'})
 
-@app.route('/getFont', methods=['POST']) 
+
+@app.route('/getFont', methods=['POST'])
 def getFont():
     data = request.get_json()
     getId = 15 * (data['page'] - 1) + 1
@@ -125,6 +133,21 @@ def getFont():
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     return jsonify({'success': True, 'data': result})
+
+
+@app.route('/download', methods=['POST'])
+def download():
+    data = request.get_json()
+    # 定义请求的 URL
+    url = "https://www.fonts.net.cn/font-download.html"
+    # 发送 POST 请求
+    response = requests.post(url, data=data)
+    # 获取响应结果
+    if response.status_code == 200:
+        result = response.json()['data']['url']
+        return jsonify({'success': True, 'data': result})
+    else:
+        return jsonify({'success': False, 'data': response.status_code})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
