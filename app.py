@@ -3,6 +3,7 @@ import pymysql
 import bcrypt
 import requests
 
+# 数据库连接
 db = pymysql.connect(
     host="127.0.0.1",
     user="root",
@@ -33,12 +34,16 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `usertable`  (\
 
 app = Flask(__name__)
 
-
+'''
+    默认进入页面
+'''
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
+'''
+    登录请求处理
+'''
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -83,7 +88,9 @@ def login():
     else:
         return jsonify({'success': False, 'message': '用户名或密码不正确'})
 
-
+'''
+    注册请求处理
+'''
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -104,7 +111,9 @@ def register():
         db.commit()
         return jsonify({'success': True, 'message': '注册成功'})
 
-
+'''
+    获取字体信息
+'''
 @app.route('/getFont', methods=['POST'])
 def getFont():
     data = request.get_json()
@@ -134,7 +143,9 @@ def getFont():
         result = dbcursor.fetchall()
     return jsonify({'success': True, 'data': result})
 
-
+'''
+    获取下载链接
+'''
 @app.route('/download', methods=['POST'])
 def download():
     data = request.get_json()
