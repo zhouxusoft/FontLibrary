@@ -93,11 +93,15 @@ function getDownloadUrl(fontid) {
         contentType: 'application/json',
         success: function (response) {
             if (response.success == true) {
-                console.log(response.data)
+                // console.log(response.data)
                 downloadUrl = response.data
                 showDownload(fontid)
             } else {
-                alert('服务器开小差了\n请稍后再试')
+                if (response.data == 'cookieErr') {
+                    alert(response.message)
+                } else {
+                    alert('服务器开小差了\n请稍后再试')
+                }
             }
         },
         error: function (error) {
@@ -171,7 +175,7 @@ function setFonts() {
     $('.font-img-down').on('click', 'button', function () {
         let clickedId = $(this).attr("id")
         let fontId = $(this).closest('.fontdata-border-box').data("font-number")
-        console.log(fontId)
+        // console.log(fontId)
         if (clickedId == 'fontdownload') {
             getDownloadUrl(fontId)
         } else if (clickedId == 'fontcollect') {
@@ -383,6 +387,7 @@ $('#loginbtn').click(function () {
                 if (response.success == true) {
                     // console.log('登陆成功')
                     alert(response.message)
+                    location.href = '#/home'
                 } else {
                     // console.log('登陆失败')
                     alert(response.message)

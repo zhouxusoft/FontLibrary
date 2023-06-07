@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, make_response
 import pymysql
 import bcrypt
 import requests
+from datetime import datetime, timedelta
 
 # 数据库连接
 db = pymysql.connect(
@@ -148,20 +149,48 @@ def getFont():
 '''
 @app.route('/download', methods=['POST'])
 def download():
-    data = request.get_json()
-    # 定义请求的 URL
-    url = "https://www.fonts.net.cn/font-download.html"
-    # 发送 POST 请求
-    response = requests.post(url, data=data)
-    # 获取响应结果
-    if response.status_code == 200:
-        if response.json()['success'] == True:
-            result = response.json()['data']['url']
-            return jsonify({'success': True, 'data': result})
+    token = request.cookies.get('access-token')
+    print(token)
+    check = checkCookie(token)
+    if check['success']:
+        data = request.get_json()
+        # 定义请求的 URL
+        url = "https://www.fonts.net.cn/font-download.html"
+        # 发送 POST 请求
+        response = requests.post(url, data=data)
+        # 获取响应结果
+        if response.status_code == 200:
+            if response.json()['success'] == True:
+                result = response.json()['data']['url']
+                return jsonify({'success': True, 'data': result})
+            else:
+                return jsonify({'success': False, 'data': response.status_code})
         else:
             return jsonify({'success': False, 'data': response.status_code})
     else:
-        return jsonify({'success': False, 'data': response.status_code})
+        return jsonify({'success': False, 'data': 'cookieErr', 'message': check['message']})
+
+def checkCookie(token):
+    sql = "SELECT * FROM `access-token` WHERE `token` = %s"
+    val = (token,)
+    dbcursor.execute(sql, val)
+    result = dbcursor.fetchall()
+    if len(result) > 0:
+        current_time = datetime.now() 
+        if isTimeOut(result[0][3], current_time):
+            return ({'success': False, 'message': '登陆已过期，请重新登录'})
+        return  ({'success': True, 'message': '可下载'})
+    else:
+        return ({'success': False, 'message': '登陆后方可下载'})
+
+def isTimeOut(time1, time2):
+    # 计算时间差值
+    difference = abs(time2 - time1)
+    # 判断差值是否大于15天
+    if difference.days > 15:
+        return True
+    else:
+        return False
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
