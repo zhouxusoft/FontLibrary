@@ -18,14 +18,7 @@ const smokeBg = (route) => {
     currentRoute = router.getNowRouteName()
 }
 
-const homePage = (route) => {
-    page = parseInt(router.routeList.home.args[0])
-    if (Number.isInteger(page) && page > 0 && page < 9) {
-        currentPage = page
-    } else {
-        currentPage = 1
-    }
-    console.log('当前第', currentPage, '页')
+function getFonts() {
     let toSend = {
         page: currentPage,
         type: currentRoute
@@ -35,19 +28,69 @@ const homePage = (route) => {
         type: 'POST',
         data: JSON.stringify(toSend),
         contentType: 'application/json',
+        async: false,
         success: function (response) {
             console.log(response.data)
+            currentFonts = response.data
         },
         error: function (error) {
             console.log(error)
         }
     })
+    setFonts()
+}
+
+function setFonts() {
+    $('#font-box').empty()
+    for (let i = 0; i < currentFonts.length; i++) {
+        const element = currentFonts[i]
+        if (element[3] == 1) {
+            element[3] = '中文字体'
+        } else if (element[3] == 2) {
+            element[3] = '英文字体'
+        } else {
+            element[3] = '图形字体'
+        }
+        let select = '#font-box-' + currentRoute
+        $(select).append(`
+            <div class="col-sm-12 p-3 my-2 rounded bg-white text-white">
+                <div class="text-dark d-flex align-items-center justify-content-between">
+                    <span class="font-top-name">${element[1]}</span>
+                    <span class="font-top-type">${element[3]}</span>
+                </div>
+                <div class="hr-i"></div>
+                <div class="font-img-box d-flex align-items-center justify-content-between">
+                    <div class="font-img">
+                        <img src="${element[4]}" class="img-fluid" alt="">
+                    </div>
+                    <div class="font-img-down d-none d-sm-block">
+                        <button class="btn btn-primary mr-2 fontstar">收藏</button>
+                        <button class="btn btn-success fontdownload">下载</button>
+                        <div class="text-dark d-flex justify-content-end pt-3">
+                            <span class="font-img-viewnum">共${element[7]}次浏览</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+    }
+}
+
+const homePage = (route) => {
+    page = parseInt(router.routeList.home.args[0])
+    if (Number.isInteger(page) && page > 0 && page < 9) {
+        currentPage = page
+    } else {
+        currentPage = 1
+    }
+    // console.log('当前第', currentPage, '页')
+    getFonts()
 }
 
 // 定义路由
 router.set(['login', 'register'], whiteBg)
 router.set('home', [smokeBg, homePage])
-router.set('zh', [smokeBg,])
+router.set('zh', [smokeBg, homePage])
 router.set('en', [smokeBg,])
 router.set('pic', [smokeBg,])
 

@@ -130,6 +130,7 @@ for j in range(1, 774):
         if i == '':
             continue
         else:
+            i = i.split('<li>')[1]
             print('-' * 100)
             # 分割出字体名称
             fontName = i.split('title="')[1]
@@ -220,6 +221,7 @@ for j in range(1, 3151):
         if i == '':
             continue
         else:
+            i = i.split('<li>')[1]
             print('-' * 100)
             # 分割出字体名称
             fontName = i.split('title="')[1]
@@ -291,7 +293,6 @@ for j in range(1, 3151):
     # randomnum = random.randint(0, 1000)
     # stime = randomnum / 1000
     # time.sleep(stime)
-
 '''
     获取图型字体分类的字体信息
 '''
@@ -310,6 +311,7 @@ for j in range(1, 263):
         if i == '':
             continue
         else:
+            i = i.split('<li>')[1]
             print('-' * 100)
             # 分割出字体名称
             fontName = i.split('title="')[1]
