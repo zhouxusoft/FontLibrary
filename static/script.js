@@ -16,6 +16,20 @@ const whiteBg = (route) => {
 const smokeBg = (route) => {
     document.body.style.backgroundColor = 'whitesmoke'
     currentRoute = router.getNowRouteName()
+    setShowPage()
+    $("html, body").animate({ scrollTop: 0 }, 300)
+}
+
+function getMaxPage() {
+    if (currentRoute == 'home') {
+        return 8
+    } else if (currentRoute == 'zh') {
+        return 387
+    } else if (currentRoute == 'en') {
+        return 1575
+    } else if (currentRoute == 'pic') {
+        return 156
+    }
 }
 
 function getFonts() {
@@ -40,8 +54,14 @@ function getFonts() {
     setFonts()
 }
 
+function setShowPage() {
+    $('.all-page').text(getMaxPage())
+    $('.current-page').text(currentPage)
+}
+
 function setFonts() {
-    $('#font-box').empty()
+    let select = '#font-box-' + currentRoute
+    $(select).empty()
     for (let i = 0; i < currentFonts.length; i++) {
         const element = currentFonts[i]
         if (element[3] == 1) {
@@ -51,7 +71,6 @@ function setFonts() {
         } else {
             element[3] = '图形字体'
         }
-        let select = '#font-box-' + currentRoute
         $(select).append(`
             <div class="col-sm-12 p-3 my-2 rounded bg-white text-white">
                 <div class="text-dark d-flex align-items-center justify-content-between">
@@ -78,7 +97,40 @@ function setFonts() {
 
 const homePage = (route) => {
     page = parseInt(router.routeList.home.args[0])
-    if (Number.isInteger(page) && page > 0 && page < 9) {
+    if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
+        currentPage = page
+    } else {
+        currentPage = 1
+    }
+    // console.log('当前第', currentPage, '页')
+    getFonts()
+}
+
+const zhPage = (route) => {
+    page = parseInt(router.routeList.zh.args[0])
+    if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
+        currentPage = page
+    } else {
+        currentPage = 1
+    }
+    // console.log('当前第', currentPage, '页')
+    getFonts()
+}
+
+const enPage = (route) => {
+    page = parseInt(router.routeList.en.args[0])
+    if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
+        currentPage = page
+    } else {
+        currentPage = 1
+    }
+    // console.log('当前第', currentPage, '页')
+    getFonts()
+}
+
+const picPage = (route) => {
+    page = parseInt(router.routeList.pic.args[0])
+    if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
         currentPage = page
     } else {
         currentPage = 1
@@ -90,9 +142,23 @@ const homePage = (route) => {
 // 定义路由
 router.set(['login', 'register'], whiteBg)
 router.set('home', [smokeBg, homePage])
-router.set('zh', [smokeBg, homePage])
-router.set('en', [smokeBg,])
-router.set('pic', [smokeBg,])
+router.set('zh', [smokeBg, zhPage])
+router.set('en', [smokeBg, enPage])
+router.set('pic', [smokeBg, picPage])
+
+$('.prve-page').click(function () {
+    if (currentPage > 1) { 
+        currentPage = currentPage - 1
+        location.href = '#/' + router.getNowRouteName() + '/' + currentPage
+    }
+})
+
+$('.next-page').click(function () {
+    if (currentPage < getMaxPage() ) {
+        currentPage = currentPage + 1
+        location.href = '#/' + router.getNowRouteName() + '/' + currentPage
+    }
+})
 
 // 密码框小眼睛切换
 const passwords = document.querySelectorAll('.passwordBox')

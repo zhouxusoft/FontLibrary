@@ -427,3 +427,22 @@ input[type="password"]::-o-clear {
     font-size: 0.875rem;
     font-weight: 500;
 }
+
+.change-page-box {
+    width: fit-content;
+    margin-left: auto;
+}
+
+.prve-page::before {
+    content: '\f053';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.next-page::after {
+    content: '\f054';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+    margin-left: 6px;
+}
