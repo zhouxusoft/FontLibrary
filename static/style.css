@@ -488,3 +488,28 @@ input[type="password"]::-o-clear {
     left: -300% !important;
     top: 36px;
 }
+
+#clickpreviewinput {
+    border-radius: 0.25rem 0 0 0;
+    color: #243650;
+}
+
+#clickpreview {
+    border-radius: 0 0.25rem 0 0;
+    cursor: pointer;
+}
+
+.fontinfoimgpreviewbox {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: none;
+    border-radius: 0 0 0.25rem 0.25rem;
+    height: 50px;
+}
+
+#fontinfoimgcharmap {
+    min-height: 560px;
+}
+
+.fontinfobtobtn {
+    width: 100px;
+}

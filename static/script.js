@@ -14,6 +14,10 @@ let userCollect = []
 let fontNum = []
 // 定义每一页的字体数量
 let perPageNum = 20
+// 记录用户的登陆状态
+let userLogin = false
+// 存储当前字体的预览码
+let fontPreviewNum = ''
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -193,6 +197,37 @@ function getDownloadUrl(fontid) {
         }
     })
 }
+// 获取链接并下载
+function getAndDownloadUrl(fontid) {
+    let toSend = {
+        id: fontid,
+        type: 'font'
+    }
+    $.ajax({
+        url: '/download',
+        type: 'POST',
+        data: JSON.stringify(toSend),
+        contentType: 'application/json',
+        success: function (response) {
+            if (response.success == true) {
+                // console.log(response.data)
+                downloadUrl = response.data
+                downloadFont()
+            } else {
+                if (response.data == 'cookieErr') {
+                    clearCookie()
+                    alert(response.message)
+                } else {
+                    alert('该字体暂时无法下载')
+                }
+            }
+        },
+        error: function (error) {
+            // console.log(error)
+            alert('服务器开小差了\n请稍后再试')
+        }
+    })
+}
 // 获取收藏夹字体信息
 function getCollect() {
     $.ajax({
@@ -234,14 +269,6 @@ function fontCollect(fontid) {
         }
     }
     toSend.flag = collectFlag
-    // 更新前端显示效果
-    if (collectFlag) {
-        let select = '[data-font-id="' + fontid + '"]'
-        $(select).find('span').css('font-weight', '300')
-    } else {
-        let select = '[data-font-id="' + fontid + '"]'
-        $(select).find('span').css('font-weight', '600')
-    }
     // 发送收藏修改请求
     $.ajax({
         url: '/changeCollect',
@@ -251,6 +278,14 @@ function fontCollect(fontid) {
         async: false,
         success: function (response) {
             if (response.success == true) {
+                // 更新前端显示效果
+                if (collectFlag) {
+                    let select = '[data-font-id="' + fontid + '"]'
+                    $(select).find('span').css('font-weight', '300')
+                } else {
+                    let select = '[data-font-id="' + fontid + '"]'
+                    $(select).find('span').css('font-weight', '600')
+                }
                 getCollect()
             } else {
                 alert(response.data)
@@ -262,6 +297,19 @@ function fontCollect(fontid) {
         }
     })
 }
+// 获取每日一言 
+function getSentence() {
+    let text = '我会一直写代码，直到我看不清屏幕的那一天。'
+    let xhr = new XMLHttpRequest()
+    xhr.open('POST', 'https://v1.hitokoto.cn/', false)
+    xhr.send()
+    let resData = JSON.parse(xhr.responseText)
+    if (resData) {
+        text = resData.hitokoto
+    }
+    return text
+}
+
 // 设置页面 显示当前的字体信息
 function setFonts() {
     let select = '#font-box-' + currentRoute
@@ -338,8 +386,46 @@ function setFonts() {
             fontCollect(fontId)
         }
     })
-
+    $('.font-img').click(function () {
+        let fontid = $(this).closest('.fontdata-border-box').data("font-number")
+        for (let i = 0; i < currentFonts.length; i++) {
+            if (currentFonts[i][2] == fontid) {
+                $('#fontinfoimg').prop('src', currentFonts[i][4])
+                let mapsrc = currentFonts[i][4].replace(/cover/g, "charmap")
+                $('#fontinfoimgcharmap').prop('src', mapsrc)
+                fontPreviewNum = currentFonts[i][5]
+                if (currentFonts[i][6] == 0) {
+                    $('#fontyesdownload').prop('disabled', true)
+                } else {
+                    $('#fontyesdownload').prop('disabled', false)
+                }
+                break
+            }
+        }
+        $('#fontinfobtn').click()
+        let msg = getSentence()
+        $('#clickpreviewinput').val(msg)
+        $('#clickpreview').click()
+        $('#fontyesdownload').off('click')
+        $('#fontyesdownload').click(function () {
+            getAndDownloadUrl(fontid)
+            $(this).prop('disabled', true)
+            $(this).find('.spinner-border').removeClass('d-none')
+            setTimeout(function() {
+                $('#fontyesdownload').prop('disabled', false)
+                $('#fontyesdownload').find('.spinner-border').addClass('d-none')
+            }, 3000)
+        })
+    })
 }
+
+$('#clickpreview').click(function () {
+    let text = $('#clickpreviewinput').val()
+    let src = `https://previewer.fonts.net.cn/canvas.php?font=${fontPreviewNum}&text=${text}`
+    if (text != '') {
+        $('#fontinfoimgpreview').prop('src', src)
+    }
+})
 // 设置顶部的字体数量
 function setFontNum(type) {
     $('.font-num').text(fontNum[type])
@@ -398,7 +484,8 @@ const picPage = (route) => {
 }
 // 跳转收藏页面执行
 const likePage = (route) => {
-    if (!checkCookie()) {
+    checkCookie()
+    if (!userLogin) {
         alert('请先登录')
         location.href = '#/home'
     } else {
@@ -428,7 +515,7 @@ function checkCookie() {
         contentType: 'application/json',
         async: false,
         success: function (response) {
-                return response.success
+            userLogin = response.success
         },
         error: function (error) {
             console.log(error)

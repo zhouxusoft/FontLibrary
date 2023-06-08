@@ -54,7 +54,8 @@
                 </li>
                 <li class="nav-item uer-border">
                     <div class="user-center dropdown">
-                        <span class="user-font d-flex align-items-center justify-content-center dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></span>
+                        <span class="user-font d-flex align-items-center justify-content-center dropdown-toggle"
+                            data-bs-toggle="dropdown" aria-expanded="false"></span>
                         <ul class="dropdown-menu custom-dropdown-menu">
                         </ul>
                     </div>
@@ -241,8 +242,7 @@
     </div>
 
     <!-- downloadModal -->
-    <button style="display: none" id="downloadbtn" data-bs-toggle="modal"
-        data-bs-target="#downloadmodal"></button>
+    <button style="display: none" id="downloadbtn" data-bs-toggle="modal" data-bs-target="#downloadmodal"></button>
     <div class="modal fade" id="downloadmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -266,8 +266,7 @@
             </div>
         </div>
     </div>
-    <div style="display: none" id="iframe_box"></div>
-
+    <!-- logoutModal -->
     <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -290,7 +289,44 @@
             </div>
         </div>
     </div>
-
+    <!-- fontinfoModal -->
+    <button style="display: none" id="fontinfobtn" data-bs-toggle="modal" data-bs-target="#fontinfomodal"></button>
+    <div class="modal fade" id="fontinfomodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <img src="" class="img-fluid" alt="" id="fontinfoimg">
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">字体预览:</div>
+                    <div class="input-group preview-input-group">
+                        <input type="text" class="form-control" id="clickpreviewinput">
+                        <span class="input-group-text" id="clickpreview">预览</span>
+                    </div>
+                    <div class="fontinfoimgpreviewbox p-1 d-flex align-items-center">
+                        <img src="" class="img-fluid" alt="" id="fontinfoimgpreview">
+                    </div>
+                    <div class="my-2">字符映射图:</div>
+                    <div>
+                        <img src="" class="img-fluid" alt="" id="fontinfoimgcharmap">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="downloadbtnbox">
+                        <button type="button" class="btn btn-outline-secondary secondbtn fontinfobtobtn" id="fontyesdownload">
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            下载
+                        </button>
+                        <button class="btn btn-outline-secondary fontinfobtobtn" id="fontibfocollect">收藏</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none" id="iframe_box"></div>
     <script src="../static/script.js"></script>
 </body>
 

@@ -301,7 +301,7 @@ def clearCookie():
 '''
     校验登录状态
 '''
-@app.route('/usercheckCookie', methods=['POST'])
+@app.route('/userCheckCookie', methods=['POST'])
 def userCheckCookie():
     token = request.cookies.get('access-token')
     check = checkCookie(token)
