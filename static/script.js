@@ -10,6 +10,10 @@ let currentFonts = []
 let downloadUrl = ''
 // 存储用户的收藏列表
 let userCollect = []
+// 存储每种字体的数量
+let fontNum = []
+// 定义每一页的字体数量
+let perPageNum = 20
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -24,22 +28,40 @@ const smokeBg = (route) => {
     getCollect()
 }
 
+function getFontNum() {
+    $.ajax({
+        url: '/getFontNum',
+        type: 'POST',
+        contentType: 'application/json',
+        async: false,
+        success: function (response) {
+            fontNum = response.data
+            // console.log(fontNum)
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
+}
+getFontNum()
+
 function getMaxPage() {
     if (currentRoute == 'home') {
-        return 8
+        return Math.ceil(fontNum[3] / perPageNum)
     } else if (currentRoute == 'zh') {
-        return 387
+        return Math.ceil(fontNum[0] / perPageNum)
     } else if (currentRoute == 'en') {
-        return 1575
+        return Math.ceil(fontNum[1] / perPageNum)
     } else if (currentRoute == 'pic') {
-        return 156
+        return Math.ceil(fontNum[2] / perPageNum)
     }
 }
 
 function getFonts() {
     let toSend = {
         page: currentPage,
-        type: currentRoute
+        type: currentRoute,
+        num: perPageNum
     }
     $.ajax({
         url: '/getFont',

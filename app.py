@@ -47,6 +47,20 @@ app = Flask(__name__)
 '''
 @app.route('/')
 def index():
+    global fontnum
+    sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1"
+    dbcursor.execute(sql,)
+    zhnum= len(dbcursor.fetchall())
+    sql = "SELECT * FROM `fontdata` WHERE `font_type` = 2"
+    dbcursor.execute(sql,)
+    ennum= len(dbcursor.fetchall())
+    sql = "SELECT * FROM `fontdata` WHERE `font_type` = 3"
+    dbcursor.execute(sql,)
+    picnum= len(dbcursor.fetchall())
+    sql = "SELECT * FROM `hotfont`"
+    dbcursor.execute(sql,)
+    hotnum= len(dbcursor.fetchall())
+    fontnum = [zhnum, ennum, picnum, hotnum]
     return render_template('index.html')
 
 '''
@@ -125,28 +139,29 @@ def register():
 @app.route('/getFont', methods=['POST'])
 def getFont():
     data = request.get_json()
-    getId = 15 * (data['page'] - 1) + 1
+    perPageNum = data['num']
+    getId = perPageNum * (data['page'] - 1) + 1
     if data['type'] == 'en':
-        getId = getId + 7736
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 39231 ORDER BY id LIMIT 20"
-        val = (getId,)
+        getId = getId + fontnum[0]
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 39231 ORDER BY id LIMIT %s"
+        val = (getId, perPageNum)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'pic':
-        getId = getId + 39231
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s ORDER BY id LIMIT 20"
-        val = (getId,)
+        getId = getId + fontnum[0] + fontnum[1]
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s ORDER BY id LIMIT %s"
+        val = (getId, perPageNum)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'home':
         getId = getId - 1
-        sql = "SELECT * FROM `hotfont` LIMIT 20 OFFSET %s"
-        val = (getId,)
+        sql = "SELECT * FROM `hotfont` LIMIT %s OFFSET %s"
+        val = (perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     else:
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 7736 ORDER BY id LIMIT 20"
-        val = (getId,)
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 7736 ORDER BY id LIMIT %s"
+        val = (getId, perPageNum)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     return jsonify({'success': True, 'data': result})
@@ -218,6 +233,15 @@ def changeCollect():
         return jsonify({'success': True, 'data': ''})
     else:
         return jsonify({'success': False, 'data': '登陆后方可使用收藏功能'})
+
+'''
+    获取字体每种类型的数量
+'''
+@app.route('/getFontNum', methods=['POST'])
+def getFontNum():
+    return jsonify({'success': True, 'data': fontnum})
+
+fontnum = []
 
 def checkCookie(token):
     sql = "SELECT * FROM `access-token` WHERE `token` = %s"
