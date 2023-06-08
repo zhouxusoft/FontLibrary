@@ -126,12 +126,13 @@ function getDownloadUrl(fontid) {
                     clearCookie("access-token")
                     alert(response.message)
                 } else {
-                    alert('服务器开小差了\n请稍后再试')
+                    alert('该字体暂时无法下载')
                 }
             }
         },
         error: function (error) {
-            console.log(error)
+            // console.log(error)
+            alert('服务器开小差了\n请稍后再试')
         }
     })
 }
@@ -200,6 +201,7 @@ function fontCollect(fontid) {
         },
         error: function (error) {
             console.log(error)
+            alert('服务器开小差了\n请稍后再试')
         }
     })
 }
@@ -498,6 +500,7 @@ $('#loginbtn').click(function () {
             },
             error: function (error) {
                 console.log(error)
+                alert('服务器开小差了\n请稍后再试')
             }
         })
     }
@@ -522,16 +525,16 @@ $('#registerbtn').click(function () {
                     alert(response.message)
                     location.href = '#/login'
                 } else {
-                    alert('服务器开小差了\n请稍后再试')
+                    alert('注册失败\n请稍后再试')
                 }
             },
             error: function (error) {
                 console.log(error)
+                alert('服务器开小差了\n请稍后再试')
             }
         })
     }
 })
-
 
 
 router.start()
