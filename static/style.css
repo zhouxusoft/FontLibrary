@@ -384,6 +384,7 @@ input[type="password"]::-o-clear {
 
 .font-img {
     overflow: hidden;
+    cursor: pointer;
 }
 
 .font-img-down {
@@ -477,4 +478,12 @@ input[type="password"]::-o-clear {
 
 .uer-border {
     margin-left: auto;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
+}
+
+.custom-dropdown-menu {
+    left: -300% !important;
 }
