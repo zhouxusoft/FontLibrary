@@ -241,6 +241,18 @@ def changeCollect():
 def getFontNum():
     return jsonify({'success': True, 'data': fontnum})
 
+'''
+    返回用户登录状态
+'''
+@app.route('/checkLogin', methods=['POST'])
+def checkLogin():
+    token = request.cookies.get('access-token')
+    check = checkCookie(token)
+    if check['success']:
+        return jsonify({'success': True, 'data': ''})
+    else:
+        return jsonify({'success': False, 'data': ''})
+    
 fontnum = []
 
 def checkCookie(token):

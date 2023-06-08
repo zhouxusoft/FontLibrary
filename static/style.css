@@ -375,6 +375,13 @@ input[type="password"]::-o-clear {
     margin-right: 6px;
 }
 
+#yesdownload::before {
+    content: "\f019";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 800;
+    margin-right: 6px;
+}
+
 .font-img {
     overflow: hidden;
 }
@@ -452,4 +459,22 @@ input[type="password"]::-o-clear {
 
 .fontdata-border-box:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.user-font {
+    width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 1.375rem;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+    color: white;
+}
+
+.uer-border {
+    margin-left: auto;
 }

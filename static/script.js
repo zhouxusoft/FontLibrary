@@ -28,6 +28,26 @@ const smokeBg = (route) => {
     getCollect()
 }
 
+function setUserFont() {
+    $.ajax({
+        url: '/checkLogin',
+        type: 'POST',
+        contentType: 'application/json',
+        async: false,
+        success: function (response) {
+            if (response.success) {
+                $('.user-font').text('\uf21b')
+            } else {
+                $('.user-font').text('\uf007')
+            }
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
+}
+setUserFont()
+
 function getFontNum() {
     $.ajax({
         url: '/getFontNum',
@@ -501,6 +521,7 @@ $('#loginbtn').click(function () {
                     // console.log('登陆成功')
                     alert(response.message)
                     location.href = '#/home'
+                    setUserFont()
                 } else {
                     // console.log('登陆失败')
                     alert(response.message)
@@ -542,6 +563,11 @@ $('#registerbtn').click(function () {
             }
         })
     }
+})
+
+let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
 
