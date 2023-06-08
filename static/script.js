@@ -91,7 +91,7 @@ function getFontNum() {
         async: false,
         success: function (response) {
             fontNum = response.data
-            console.log(fontNum)
+            // console.log(fontNum)
         },
         error: function (error) {
             console.log(error)

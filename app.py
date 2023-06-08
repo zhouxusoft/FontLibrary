@@ -177,7 +177,6 @@ def getFont():
         token = request.cookies.get('access-token')
         check = checkCookie(token)
         if check['success']:
-            start = perPageNum * (data['page'] - 1)
             userid = int(token.split('$')[2])
             sql = "SELECT * FROM `fontdata` JOIN `fontcollect` ON fontdata.id = fontcollect.font_id WHERE fontcollect.user_id = %s ORDER BY fontcollect.id DESC LIMIT %s OFFSET %s"
             val = (userid, perPageNum, getId - 1)
