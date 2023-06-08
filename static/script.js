@@ -37,8 +37,21 @@ function setUserFont() {
         success: function (response) {
             if (response.success) {
                 $('.user-font').text('\uf21b')
+                $('.custom-dropdown-menu').empty()
+                $('.custom-dropdown-menu').append(`
+                    <li><span class="dropdown-item">我的收藏</span></li>
+                    <li><span class="dropdown-item" id="logout" data-bs-toggle="modal"
+                    data-bs-target="#logoutmodal">退出登录</span></li>
+                `)
+                $('#yeslogout').click(function () {
+                    clearCookie()
+                })
             } else {
                 $('.user-font').text('\uf007')
+                $('.custom-dropdown-menu').empty()
+                $('.custom-dropdown-menu').append(`
+                    <li><a class="dropdown-item" href="#/login">前往登录</a></li>
+                `)
             }
         },
         error: function (error) {
@@ -143,7 +156,7 @@ function getDownloadUrl(fontid) {
                 showDownload(fontid)
             } else {
                 if (response.data == 'cookieErr') {
-                    clearCookie("access-token")
+                    clearCookie()
                     alert(response.message)
                 } else {
                     alert('该字体暂时无法下载')
@@ -495,8 +508,19 @@ function recheckPassword(data) {
 }
 
 // 清除cookie
-function clearCookie(cookieName) {
-    document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+function clearCookie() {
+    $.ajax({
+        url: '/clearCookie',
+        type: 'POST',
+        contentType: 'application/json',
+        success: function (response) {
+            setUserFont()
+        },
+        error: function (error) {
+            console.log(error)
+            alert('服务器开小差了\n请稍后再试')
+        }
+    })
 }
 
 // 登录功能
@@ -569,6 +593,17 @@ let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggl
 let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
+
+$('.dropdown').hover(
+    function() {
+      $(this).addClass('show');
+      $(this).find('.dropdown-menu').addClass('show');
+    },
+    function() {
+      $(this).removeClass('show');
+      $(this).find('.dropdown-menu').removeClass('show');
+    }
+  );
 
 
 router.start()

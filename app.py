@@ -101,7 +101,7 @@ def login():
             dbcursor.execute(sql, val)
             db.commit()
             response = make_response(
-                jsonify({'success': True, 'message': '登陆成功'}))
+                jsonify({'success': True, 'message': '登录成功'}))
             response.set_cookie('access-token', accesstoken,
                                 max_age=15*24*3600, httponly=True)
             return response
@@ -252,6 +252,15 @@ def checkLogin():
         return jsonify({'success': True, 'data': ''})
     else:
         return jsonify({'success': False, 'data': ''})
+    
+'''
+    清除前端cookie
+'''
+@app.route('/clearCookie', methods=['POST'])
+def clearCookie():
+    response = make_response()
+    response.set_cookie('access-token', '', expires=0, httponly=True)
+    return response
     
 fontnum = []
 

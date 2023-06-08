@@ -466,7 +466,7 @@ input[type="password"]::-o-clear {
     width: 36px;
     height: 36px;
     padding: 0 8px;
-    border: 2px solid white;
+    box-shadow: inset 0 0 0 2px white;
     border-radius: 50%;
     cursor: pointer;
     margin: 2px;
@@ -486,4 +486,5 @@ input[type="password"]::-o-clear {
 
 .custom-dropdown-menu {
     left: -300% !important;
+    top: 36px;
 }

@@ -56,10 +56,7 @@
                     <div class="user-center dropdown">
                         <span class="user-font d-flex align-items-center justify-content-center dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></span>
                         <ul class="dropdown-menu custom-dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another</a></li>
-                            <li><a class="dropdown-item" href="#">Some</a></li>
-                          </ul>
+                        </ul>
                     </div>
                 </li>
             </ul>
@@ -253,6 +250,29 @@
         </div>
     </div>
     <div style="display: none" id="iframe_box"></div>
+
+    <div class="modal fade" id="logoutmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 logouttitle">退出登录</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="logouttip">确定退出当前账号</div>
+                </div>
+                <div class="modal-footer">
+                    <div class="logoutbtnbox">
+                        <div class="logoutbtnbox2">
+                            <button type="button" class="btn btn-outline-secondary secondbtn" data-bs-dismiss="modal"
+                                id="yeslogout">退出</button>
+                            <button type="button" class="btn btn-outline-secondary secondbtn" data-bs-dismiss="modal"
+                                id="closedownloadfilemodal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="../static/script.js"></script>
 </body>
