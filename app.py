@@ -60,7 +60,16 @@ def index():
     sql = "SELECT * FROM `hotfont`"
     dbcursor.execute(sql,)
     hotnum= len(dbcursor.fetchall())
-    fontnum = [zhnum, ennum, picnum, hotnum]
+    like = 0
+    token = request.cookies.get('access-token')
+    check = checkCookie(token)
+    if check['success']:
+        userid = int(token.split('$')[2])
+        sql = "SELECT * FROM `fontcollect` WHERE `user_id` = %s"
+        val = (userid,)
+        dbcursor.execute(sql, val)
+        like = len(dbcursor.fetchall())
+    fontnum = [zhnum, ennum, picnum, hotnum, like]
     return render_template('index.html')
 
 '''
@@ -159,11 +168,21 @@ def getFont():
         val = (perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
-    else:
+    elif data['type'] == 'hot':
         sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 7736 ORDER BY id LIMIT %s"
         val = (getId, perPageNum)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
+    elif data['type'] == 'like':
+        token = request.cookies.get('access-token')
+        check = checkCookie(token)
+        if check['success']:
+            start = perPageNum * (data['page'] - 1)
+            userid = int(token.split('$')[2])
+            sql = "SELECT * FROM `fontdata` JOIN `fontcollect` ON fontdata.id = fontcollect.font_id WHERE fontcollect.user_id = %s ORDER BY fontcollect.id DESC LIMIT %s OFFSET %s"
+            val = (userid, perPageNum, getId - 1)
+            dbcursor.execute(sql, val)
+            result = dbcursor.fetchall()
     return jsonify({'success': True, 'data': result})
 
 '''
@@ -239,6 +258,16 @@ def changeCollect():
 '''
 @app.route('/getFontNum', methods=['POST'])
 def getFontNum():
+    like = 0
+    token = request.cookies.get('access-token')
+    check = checkCookie(token)
+    if check['success']:
+        userid = int(token.split('$')[2])
+        sql = "SELECT * FROM `fontcollect` WHERE `user_id` = %s"
+        val = (userid,)
+        dbcursor.execute(sql, val)
+        like = len(dbcursor.fetchall())
+    fontnum[4] = like
     return jsonify({'success': True, 'data': fontnum})
 
 '''

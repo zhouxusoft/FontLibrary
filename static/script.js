@@ -39,12 +39,34 @@ function setUserFont() {
                 $('.user-font').text('\uf21b')
                 $('.custom-dropdown-menu').empty()
                 $('.custom-dropdown-menu').append(`
-                    <li><span class="dropdown-item">我的收藏</span></li>
+                    <li><a class="dropdown-item" id="mycollect" href="#/like">我的收藏</a></li>
                     <li><span class="dropdown-item" id="logout" data-bs-toggle="modal"
                     data-bs-target="#logoutmodal">退出登录</span></li>
                 `)
                 $('#yeslogout').click(function () {
                     clearCookie()
+                })
+                $('#mycollect').click(function () {
+                    let toSend = {
+                        page: currentPage,
+                        type: currentRoute,
+                        num: perPageNum
+                    }
+                    $.ajax({
+                        url: '/getFont',
+                        type: 'POST',
+                        data: JSON.stringify(toSend),
+                        contentType: 'application/json',
+                        async: false,
+                        success: function (response) {
+                            // console.table(response.data)
+                            currentFonts = response.data
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        }
+                    })
+                    setFonts()
                 })
             } else {
                 $('.user-font').text('\uf007')
@@ -69,7 +91,7 @@ function getFontNum() {
         async: false,
         success: function (response) {
             fontNum = response.data
-            // console.log(fontNum)
+            console.log(fontNum)
         },
         error: function (error) {
             console.log(error)
@@ -87,6 +109,8 @@ function getMaxPage() {
         return Math.ceil(fontNum[1] / perPageNum)
     } else if (currentRoute == 'pic') {
         return Math.ceil(fontNum[2] / perPageNum)
+    } else if (currentRoute == 'like') {
+        return Math.ceil(fontNum[4] / perPageNum)
     }
 }
 
@@ -303,7 +327,7 @@ function setFonts() {
             } 
         }
     }
-    console.log(userCollect);
+    // console.log(userCollect)
     $('.font-img-down').on('click', 'button', function () {
         let clickedId = $(this).attr("id")
         let fontId = $(this).closest('.fontdata-border-box').data("font-number")
@@ -373,12 +397,32 @@ const picPage = (route) => {
     setFontNum(2)
 }
 
+const likePage = (route) => {
+    getFontNum()
+    page = parseInt(router.routeList.like.args[0])
+    if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
+        currentPage = page
+    } else {
+        currentPage = 1
+    }
+    if (getMaxPage() > 1) {
+        $('#collect-page-box').css('visibility', 'visible')
+    } else {
+        $('#collect-page-box').css('visibility', 'hidden')
+    }
+    // console.log('当前第', currentPage, '页')
+    getFonts()
+    setShowPage()
+    setFontNum(4)
+}
+
 // 定义路由
 router.set(['login', 'register'], whiteBg)
 router.set('home', [smokeBg, homePage])
 router.set('zh', [smokeBg, zhPage])
 router.set('en', [smokeBg, enPage])
 router.set('pic', [smokeBg, picPage])
+router.set('like', [smokeBg, likePage])
 
 $('.prve-page').click(function () {
     if (currentPage > 1) { 
