@@ -258,6 +258,13 @@ def checkLogin():
 '''
 @app.route('/clearCookie', methods=['POST'])
 def clearCookie():
+    token = request.cookies.get('access-token')
+    check = checkCookie(token)
+    if check['success']:
+        sql = "DELETE FROM `access-token` WHERE `token` = %s"
+        val = (token)
+        dbcursor.execute(sql, val)
+        db.commit()
     response = make_response()
     response.set_cookie('access-token', '', expires=0, httponly=True)
     return response
