@@ -507,7 +507,7 @@ input[type="password"]::-o-clear {
 }
 
 #fontinfoimgcharmap {
-    min-height: 560px;
+    min-height: 300px;
 }
 
 .fontinfobtobtn {

@@ -42,6 +42,8 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `fontcollect`  (\
 
 app = Flask(__name__)
 
+fontnum = [0, 0, 0, 0]
+
 '''
     默认进入页面
 '''
