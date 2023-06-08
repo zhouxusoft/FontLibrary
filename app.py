@@ -298,6 +298,18 @@ def clearCookie():
     response.set_cookie('access-token', '', expires=0, httponly=True)
     return response
 
+'''
+    校验登录状态
+'''
+@app.route('/usercheckCookie', methods=['POST'])
+def userCheckCookie():
+    token = request.cookies.get('access-token')
+    check = checkCookie(token)
+    if check['success']:
+        return jsonify({'success': True, 'data': ''})
+    else:
+        return jsonify({'success': False, 'data': ''})
+
 def checkCookie(token):
     sql = "SELECT * FROM `access-token` WHERE `token` = %s"
     val = (token,)

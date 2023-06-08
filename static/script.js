@@ -27,7 +27,7 @@ const smokeBg = (route) => {
     $("html, body").animate({ scrollTop: 0 }, 300)
     getCollect()
 }
-
+// 设置用户中心按钮样式
 function setUserFont() {
     $.ajax({
         url: '/checkLogin',
@@ -82,7 +82,7 @@ function setUserFont() {
     })
 }
 setUserFont()
-
+// 获取每种字体的数量
 function getFontNum() {
     $.ajax({
         url: '/getFontNum',
@@ -99,7 +99,7 @@ function getFontNum() {
     })
 }
 getFontNum()
-
+// 获取当前类型字体的页数
 function getMaxPage() {
     if (currentRoute == 'home') {
         return Math.ceil(fontNum[3] / perPageNum)
@@ -113,7 +113,7 @@ function getMaxPage() {
         return Math.ceil(fontNum[4] / perPageNum)
     }
 }
-
+// 获取当前页面的字体信息
 function getFonts() {
     let toSend = {
         page: currentPage,
@@ -136,12 +136,12 @@ function getFonts() {
     })
     setFonts()
 }
-
+// 设置翻页时下面显示的当前页码和总页码
 function setShowPage() {
     $('.all-page').text(getMaxPage())
     $('.current-page').text(currentPage)
 }
-
+// 显示下载弹窗
 function showDownload(fontid) {
     for (let i = 0; i < currentFonts.length; i++) {
         if (currentFonts[i][2] == fontid) {
@@ -154,7 +154,7 @@ function showDownload(fontid) {
         downloadFont()
     })
 }
-
+// 下载字体方法
 function downloadFont() {
     let iframe_box = document.querySelector('#iframe_box')
     while (iframe_box.firstChild) {
@@ -162,7 +162,7 @@ function downloadFont() {
     }
     iframe_box.innerHTML = iframe_box.innerHTML + '<iframe src="' + downloadUrl + '"><iframe>'
 }
-
+// 获取下载链接
 function getDownloadUrl(fontid) {
     let toSend = {
         id: fontid,
@@ -193,7 +193,7 @@ function getDownloadUrl(fontid) {
         }
     })
 }
-
+// 获取收藏夹字体信息
 function getCollect() {
     $.ajax({
         url: '/getCollect',
@@ -212,7 +212,7 @@ function getCollect() {
         }
     })
 }
-
+// 点击收藏效果
 function fontCollect(fontid) {
     // 判断当前字体的id
     for (let i = 0; i < currentFonts.length; i++) {
@@ -262,7 +262,7 @@ function fontCollect(fontid) {
         }
     })
 }
-
+// 设置页面 显示当前的字体信息
 function setFonts() {
     let select = '#font-box-' + currentRoute
     $(select).empty()
@@ -318,13 +318,13 @@ function setFonts() {
                         </div>
                     </div>
                 </div>
-            `)           
-        }   
+            `)
+        }
         for (let j = 0; j < userCollect.length; j++) {
             if (userCollect[j][2] == element[0]) {
                 let select = '[data-font-id="' + element[0] + '"]'
                 $(select).find('span').css('font-weight', '600')
-            } 
+            }
         }
     }
     // console.log(userCollect)
@@ -338,13 +338,13 @@ function setFonts() {
             fontCollect(fontId)
         }
     })
-    
-}
 
+}
+// 设置顶部的字体数量
 function setFontNum(type) {
     $('.font-num').text(fontNum[type])
 }
-
+// 跳转首页页面执行
 const homePage = (route) => {
     page = parseInt(router.routeList.home.args[0])
     if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
@@ -357,7 +357,7 @@ const homePage = (route) => {
     setShowPage()
     setFontNum(3)
 }
-
+// 跳转中文页面执行
 const zhPage = (route) => {
     page = parseInt(router.routeList.zh.args[0])
     if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
@@ -370,7 +370,7 @@ const zhPage = (route) => {
     setShowPage()
     setFontNum(0)
 }
-
+// 跳转英文页面执行
 const enPage = (route) => {
     page = parseInt(router.routeList.en.args[0])
     if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
@@ -383,7 +383,7 @@ const enPage = (route) => {
     setShowPage()
     setFontNum(1)
 }
-
+// 跳转图形页面执行
 const picPage = (route) => {
     page = parseInt(router.routeList.pic.args[0])
     if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
@@ -396,24 +396,44 @@ const picPage = (route) => {
     setShowPage()
     setFontNum(2)
 }
-
+// 跳转收藏页面执行
 const likePage = (route) => {
-    getFontNum()
-    page = parseInt(router.routeList.like.args[0])
-    if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
-        currentPage = page
+    if (!checkCookie()) {
+        alert('请先登录')
+        location.href = '#/home'
     } else {
-        currentPage = 1
-    }
-    if (getMaxPage() > 1) {
-        $('#collect-page-box').css('visibility', 'visible')
-    } else {
-        $('#collect-page-box').css('visibility', 'hidden')
-    }
-    // console.log('当前第', currentPage, '页')
-    getFonts()
-    setShowPage()
-    setFontNum(4)
+        getFontNum()
+        page = parseInt(router.routeList.like.args[0])
+        if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
+            currentPage = page
+        } else {
+            currentPage = 1
+        }
+        if (getMaxPage() > 1) {
+            $('#collect-page-box').css('visibility', 'visible')
+        } else {
+            $('#collect-page-box').css('visibility', 'hidden')
+        }
+        // console.log('当前第', currentPage, '页')
+        getFonts()
+        setShowPage()
+        setFontNum(4)
+    }  
+}
+
+function checkCookie() {
+    $.ajax({
+        url: '/userCheckCookie',
+        type: 'POST',
+        contentType: 'application/json',
+        async: false,
+        success: function (response) {
+                return response.success
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
 }
 
 // 定义路由
@@ -424,15 +444,16 @@ router.set('en', [smokeBg, enPage])
 router.set('pic', [smokeBg, picPage])
 router.set('like', [smokeBg, likePage])
 
+// 上一页按钮
 $('.prve-page').click(function () {
-    if (currentPage > 1) { 
+    if (currentPage > 1) {
         currentPage = currentPage - 1
         location.href = '#/' + router.getNowRouteName() + '/' + currentPage
     }
 })
-
+// 下一页按钮
 $('.next-page').click(function () {
-    if (currentPage < getMaxPage() ) {
+    if (currentPage < getMaxPage()) {
         currentPage = currentPage + 1
         location.href = '#/' + router.getNowRouteName() + '/' + currentPage
     }
@@ -635,19 +656,19 @@ $('#registerbtn').click(function () {
 
 let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
+    return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
 $('.dropdown').hover(
-    function() {
-      $(this).addClass('show');
-      $(this).find('.dropdown-menu').addClass('show');
+    function () {
+        $(this).addClass('show')
+        $(this).find('.dropdown-menu').addClass('show')
     },
-    function() {
-      $(this).removeClass('show');
-      $(this).find('.dropdown-menu').removeClass('show');
+    function () {
+        $(this).removeClass('show')
+        $(this).find('.dropdown-menu').removeClass('show')
     }
-  );
+)
 
 
 router.start()
