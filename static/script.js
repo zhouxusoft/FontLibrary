@@ -266,6 +266,7 @@ function fontCollect(fontid) {
     let toSend = {
         fontid: fontid,
     }
+    collectFlag = 0
     // 判断当前字体收藏状态
     for (let i = 0; i < userCollect.length; i++) {
         if (userCollect[i][2] == fontid) {
@@ -437,7 +438,7 @@ function setFonts() {
             setTimeout(function () {
                 $('#fontinfocollect').prop('disabled', false)
                 $('#fontinfocollect').find('.spinner-border2').addClass('d-none')
-            }, 3000)
+            }, 1000)
         })
     })
 }
