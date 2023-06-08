@@ -284,6 +284,10 @@ function setFonts() {
     
 }
 
+function setFontNum(type) {
+    $('.font-num').text(fontNum[type])
+}
+
 const homePage = (route) => {
     page = parseInt(router.routeList.home.args[0])
     if (Number.isInteger(page) && page > 0 && page < getMaxPage() + 1) {
@@ -294,6 +298,7 @@ const homePage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
+    setFontNum(3)
 }
 
 const zhPage = (route) => {
@@ -306,6 +311,7 @@ const zhPage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
+    setFontNum(0)
 }
 
 const enPage = (route) => {
@@ -318,6 +324,7 @@ const enPage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
+    setFontNum(1)
 }
 
 const picPage = (route) => {
@@ -330,6 +337,7 @@ const picPage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
+    setFontNum(2)
 }
 
 // 定义路由
