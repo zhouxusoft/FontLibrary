@@ -446,9 +446,7 @@ function setFonts() {
 $('#clickpreview').click(function () {
     let text = $('#clickpreviewinput').val()
     let src = `https://previewer.fonts.net.cn/canvas.php?font=${fontPreviewNum}&text=${text}`
-    if (text != '') {
-        $('#fontinfoimgpreview').prop('src', src)
-    }
+    $('#fontinfoimgpreview').prop('src', src)
 })
 // 设置顶部的字体数量
 function setFontNum(type) {
