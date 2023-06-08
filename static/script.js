@@ -18,6 +18,8 @@ let perPageNum = 20
 let userLogin = false
 // 存储当前字体的预览码
 let fontPreviewNum = ''
+// 存储用户对当前字体的收藏状态
+let collectFlag = 0
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -238,6 +240,11 @@ function getCollect() {
         success: function (response) {
             if (response.success == true) {
                 userCollect = response.data
+                if (collectFlag) {
+                    $('#fontinfocollect').text('收藏')
+                } else {
+                    $('#fontinfocollect').text('已收藏')
+                }
             } else {
                 userCollect = []
             }
@@ -259,7 +266,6 @@ function fontCollect(fontid) {
     let toSend = {
         fontid: fontid,
     }
-    let collectFlag = 0
     // 判断当前字体收藏状态
     for (let i = 0; i < userCollect.length; i++) {
         if (userCollect[i][2] == fontid) {
@@ -278,6 +284,7 @@ function fontCollect(fontid) {
         async: false,
         success: function (response) {
             if (response.success == true) {
+                getCollect()
                 // 更新前端显示效果
                 if (collectFlag) {
                     let select = '[data-font-id="' + fontid + '"]'
@@ -286,7 +293,6 @@ function fontCollect(fontid) {
                     let select = '[data-font-id="' + fontid + '"]'
                     $(select).find('span').css('font-weight', '600')
                 }
-                getCollect()
             } else {
                 alert(response.data)
             }
@@ -399,6 +405,13 @@ function setFonts() {
                 } else {
                     $('#fontyesdownload').prop('disabled', false)
                 }
+                $('#fontinfocollect').text('收藏')
+                for (let j = 0; j < userCollect.length; j++) {
+                    if (userCollect[j][2] == currentFonts[i][0]) {
+                        $('#fontinfocollect').text('已收藏')
+                        break
+                    }
+                }
                 break
             }
         }
@@ -411,9 +424,19 @@ function setFonts() {
             getAndDownloadUrl(fontid)
             $(this).prop('disabled', true)
             $(this).find('.spinner-border').removeClass('d-none')
-            setTimeout(function() {
+            setTimeout(function () {
                 $('#fontyesdownload').prop('disabled', false)
                 $('#fontyesdownload').find('.spinner-border').addClass('d-none')
+            }, 3000)
+        })
+        $('#fontinfocollect').off('click')
+        $('#fontinfocollect').click(function () {
+            fontCollect(fontid)
+            $(this).prop('disabled', true)
+            $(this).find('.spinner-border2').removeClass('d-none')
+            setTimeout(function () {
+                $('#fontinfocollect').prop('disabled', false)
+                $('#fontinfocollect').find('.spinner-border2').addClass('d-none')
             }, 3000)
         })
     })
@@ -505,7 +528,7 @@ const likePage = (route) => {
         getFonts()
         setShowPage()
         setFontNum(4)
-    }  
+    }
 }
 
 function checkCookie() {
