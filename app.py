@@ -152,8 +152,9 @@ def getFont():
     getId = perPageNum * (data['page'] - 1) + 1
     if data['type'] == 'en':
         getId = getId + fontnum[0]
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 39231 ORDER BY id LIMIT %s"
-        val = (getId, perPageNum)
+        end = getId + fontnum[0] + fontnum[1]
+        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= %s ORDER BY id LIMIT %s"
+        val = (getId, end, perPageNum)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'pic':
@@ -168,7 +169,7 @@ def getFont():
         val = (perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
-    elif data['type'] == 'hot':
+    elif data['type'] == 'zh':
         sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 7736 ORDER BY id LIMIT %s"
         val = (getId, perPageNum)
         dbcursor.execute(sql, val)
@@ -296,8 +297,6 @@ def clearCookie():
     response = make_response()
     response.set_cookie('access-token', '', expires=0, httponly=True)
     return response
-    
-fontnum = []
 
 def checkCookie(token):
     sql = "SELECT * FROM `access-token` WHERE `token` = %s"
