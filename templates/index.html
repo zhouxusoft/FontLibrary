@@ -70,19 +70,17 @@
             </div>
             <div class="hr"></div>
             <div class="box">
-                <form action="" id="loginForm">
-                    <div class="inputBox">
-                        <input type="text" id="usernameInput" class="nameBox" placeholder="用户名">
-                    </div>
-                    <div class="inputBox">
-                        <input type="password" id="passwordInput" class="passwordBox" placeholder="密码">
-                        <span class="logoButton"></span>
-                    </div>
-                    <div class="btnbox">
-                        <button type="submit" class="sbtn" id="loginbtn">确认登录</button>
-                        <button type="button" class="sbtn" onclick="location='#/register'">前往注册</button>
-                    </div>
-                </form>
+                <div class="inputBox">
+                    <input type="text" id="usernameInput" class="nameBox" placeholder="用户名">
+                </div>
+                <div class="inputBox">
+                    <input type="password" id="passwordInput" class="passwordBox" placeholder="密码">
+                    <span class="logoButton"></span>
+                </div>
+                <div class="btnbox">
+                    <button type="submit" class="sbtn" id="loginbtn">确认登录</button>
+                    <button type="button" class="sbtn" onclick="location='#/register'">前往注册</button>
+                </div>
             </div>
             <div class="hr"></div>
             <div class="godxu">
@@ -125,33 +123,30 @@
             </div>
             <div class="hr"></div>
             <div class="box">
-                <form action="" id="registerForm">
-                    <div class="inputBox">
-                        <input type="text" class="nameBox" id="rusernameInput" placeholder="用户名" autocomplete="off"
-                            onkeyup="userName(this.value)">
-                    </div>
-                    <div class="inputBox">
-                        <input type="password" class="passwordBox" id="rpasswordInput" placeholder="密码"
-                            onkeyup="checkPassword(this.value)">
-                        <span class="logoButton"></span>
-                    </div>
-                    <div class="checkBox">
-                        <input type="password" class="passwordBox" placeholder="确认密码"
-                            onkeyup="recheckPassword(this.value)">
-                        <span class="logoButton"></span>
-                    </div>
-                    <div class="validation">
-                        <ul>
-                            <li id="nameLength">用户名不能过短或过长</li>
-                            <li id="length">密码长度至少为6</li>
-                            <li id="recheck">两次输入密码一致</li>
-                        </ul>
-                    </div>
-                    <div class="btnbox">
-                        <button type="submit" class="default" id="registerbtn" disabled="true">确认注册</button>
-                        <button type="button" class="sbtn" onclick="location='#/login'">返回登录</button>
-                    </div>
-                </form>
+                <div class="inputBox">
+                    <input type="text" class="nameBox" id="rusernameInput" placeholder="用户名" autocomplete="off"
+                        onkeyup="userName(this.value)">
+                </div>
+                <div class="inputBox">
+                    <input type="password" class="passwordBox" id="rpasswordInput" placeholder="密码"
+                        onkeyup="checkPassword(this.value)">
+                    <span class="logoButton"></span>
+                </div>
+                <div class="checkBox">
+                    <input type="password" class="passwordBox" placeholder="确认密码" onkeyup="recheckPassword(this.value)">
+                    <span class="logoButton"></span>
+                </div>
+                <div class="validation">
+                    <ul>
+                        <li id="nameLength">用户名不能过短或过长</li>
+                        <li id="length">密码长度至少为6</li>
+                        <li id="recheck">两次输入密码一致</li>
+                    </ul>
+                </div>
+                <div class="btnbox">
+                    <button type="submit" class="default" id="registerbtn" disabled="true">确认注册</button>
+                    <button type="button" class="sbtn" onclick="location='#/login'">返回登录</button>
+                </div>
             </div>
         </div>
     </div>
@@ -316,8 +311,10 @@
                 </div>
                 <div class="modal-footer">
                     <div class="downloadbtnbox">
-                        <button type="button" class="btn btn-outline-secondary secondbtn fontinfobtobtn" id="fontyesdownload">
-                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <button type="button" class="btn btn-outline-secondary secondbtn fontinfobtobtn"
+                            id="fontyesdownload">
+                            <span class="spinner-border spinner-border-sm d-none" role="status"
+                                aria-hidden="true"></span>
                             下载
                         </button>
                         <button class="btn btn-outline-secondary fontinfobtobtn" id="fontinfocollect">收藏</button>

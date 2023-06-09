@@ -49,8 +49,6 @@ fontnum = [0, 0, 0, 0]
 '''
 @app.route('/')
 def index():
-    if not db.open:
-        db.connect()
     global fontnum
     sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1"
     dbcursor.execute(sql,)
