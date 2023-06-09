@@ -752,7 +752,7 @@ $('#registerbtn').click(function () {
                     alert(response.message)
                     location.href = '#/login'
                 } else {
-                    alert('注册失败\n请稍后再试')
+                    alert(response.message)
                 }
             },
             error: function (error) {
