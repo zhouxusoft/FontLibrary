@@ -9,12 +9,12 @@ db = pymysql.connect(
     host="127.0.0.1",
     user="root",
     password="123456",
+    db="fontlibrary",
     charset="utf8mb4"
 )
 
 dbcursor = db.cursor()
 dbcursor.execute("CREATE DATABASE IF NOT EXISTS fontlibrary")
-dbcursor.execute("USE fontlibrary")
 
 # 创建数据表
 dbcursor.execute("CREATE TABLE IF NOT EXISTS `access-token`(\
@@ -49,6 +49,8 @@ fontnum = [0, 0, 0, 0]
 '''
 @app.route('/')
 def index():
+    if not db.open:
+        db.connect()
     global fontnum
     sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1"
     dbcursor.execute(sql,)
@@ -79,6 +81,8 @@ def index():
 '''
 @app.route('/login', methods=['POST'])
 def login():
+    if not db.open:
+        db.connect()
     data = request.get_json()
     # print(data)
     # 从用户表中查询用户， 并对密码作出判断
@@ -126,6 +130,8 @@ def login():
 '''
 @app.route('/register', methods=['POST'])
 def register():
+    if not db.open:
+        db.connect()
     data = request.get_json()
     # print(data)
     sql = "SELECT * FROM `usertable` WHERE username = %s"
