@@ -34,6 +34,7 @@ const smokeBg = (route) => {
     currentRoute = router.getNowRouteName()
     $("html, body").animate({ scrollTop: 0 }, 300)
     getCollect()
+    setFreeBtn()
 }
 // 设置用户中心按钮样式
 function setUserFont() {
@@ -464,6 +465,32 @@ $('#clickpreview').click(function () {
     let src = `https://previewer.fonts.net.cn/canvas.php?font=${fontPreviewNum}&text=${text}`
     $('#fontinfoimgpreview').prop('src', src)
 })
+// 点击切换显示所有或免费
+$('.nav-tabs').on('click', 'button', function () {
+    let clickedId = $(this).attr("id")
+    if (clickedId == 'nav-home-tab') {
+        if (fontFree != 0) {
+            fontFree = 0
+            setFreeBtn()
+            console.log(fontFree)
+        }
+    } else if (clickedId == 'nav-profile-tab') {
+        if (fontFree != 1) {
+            fontFree = 1
+            setFreeBtn()
+            console.log(fontFree)
+        }
+    }
+})
+function setFreeBtn() {
+    if (fontFree == 0) {
+        $('.nav-all').addClass('active')
+        $('.nav-free').removeClass('active')
+    } else if (fontFree == 1) {
+        $('.nav-all').removeClass('active')
+        $('.nav-free').addClass('active')
+    }
+}
 // 设置顶部的字体数量
 function setFontNum(type) {
     $('.font-num').text(fontNum[type])
