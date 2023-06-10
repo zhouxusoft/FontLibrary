@@ -507,6 +507,10 @@ const homePage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(3)
+    $('#link-home').addClass('current')
+    $('#link-zh').removeClass('current')
+    $('#link-en').removeClass('current')
+    $('#link-pic').removeClass('current')
 }
 // 跳转中文页面执行
 const zhPage = (route) => {
@@ -520,6 +524,10 @@ const zhPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(0)
+    $('#link-home').removeClass('current')
+    $('#link-zh').addClass('current')
+    $('#link-en').removeClass('current')
+    $('#link-pic').removeClass('current')
 }
 // 跳转英文页面执行
 const enPage = (route) => {
@@ -533,6 +541,10 @@ const enPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(1)
+    $('#link-home').removeClass('current')
+    $('#link-zh').removeClass('current')
+    $('#link-en').addClass('current')
+    $('#link-pic').removeClass('current')
 }
 // 跳转图形页面执行
 const picPage = (route) => {
@@ -546,6 +558,10 @@ const picPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(2)
+    $('#link-home').removeClass('current')
+    $('#link-zh').removeClass('current')
+    $('#link-en').removeClass('current')
+    $('#link-pic').addClass('current')
 }
 // 跳转收藏页面执行
 const likePage = (route) => {
