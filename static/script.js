@@ -507,6 +507,7 @@ const homePage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(3)
+    $('#link-home').focus()
 }
 // 跳转中文页面执行
 const zhPage = (route) => {
@@ -520,6 +521,7 @@ const zhPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(0)
+    $('#link-zh').focus()
 }
 // 跳转英文页面执行
 const enPage = (route) => {
@@ -533,6 +535,7 @@ const enPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(1)
+    $('#link-en').focus()
 }
 // 跳转图形页面执行
 const picPage = (route) => {
@@ -546,6 +549,7 @@ const picPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum(2)
+    $('#link-pic').focus()
 }
 // 跳转收藏页面执行
 const likePage = (route) => {
