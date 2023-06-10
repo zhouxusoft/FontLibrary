@@ -23,6 +23,7 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `fontdata` (\
                     `font_preview` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,\
                     `font_download` int NULL DEFAULT NULL,\
                     `font_viewnum` int NULL DEFAULT NULL,\
+                    `font_free` int NOT NULL DEFAULT 0,\
                     PRIMARY KEY (`id`) USING BTREE\
                     ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;")
 dbcursor.execute("CREATE TABLE IF NOT EXISTS `fonttype` (\
@@ -172,6 +173,13 @@ for j in range(1, 774):
             fontViewNum = int(fontViewNum)
             print('浏览次数：', fontViewNum)
 
+            free = 0
+            if len(i.split('commercial_free_scopes')) > 1:
+                free = 1
+            elif len(i.split('class="_sp"')) > 1:
+                free = -1
+            print('商用免费：', free)
+
             # 判断此字体类型是否已经存在于字体类型数据表中
             sql = "SELECT * FROM fonttype WHERE type_name = %s"
             val = (fontType,)
@@ -193,8 +201,8 @@ for j in range(1, 774):
                 fontTypeId = result[0][0]
 
             # 将字体数据插入字体数据表中
-            sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum)
+            sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum, font_free) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum, free)
             dbcursor.execute(sql, val)
             db.commit()
     print('=' * 100)
@@ -264,6 +272,13 @@ for j in range(1, 3151):
             fontViewNum = int(fontViewNum)
             print('浏览次数：', fontViewNum)
 
+            free = 0
+            if len(i.split('commercial_free_scopes')) > 1:
+                free = 1
+            elif len(i.split('class="_sp"')) > 1:
+                free = -1
+            print('商用免费：', free)
+
             # 判断此字体类型是否已经存在于字体类型数据表中
             sql = "SELECT * FROM fonttype WHERE type_name = %s"
             val = (fontType,)
@@ -285,8 +300,8 @@ for j in range(1, 3151):
                 fontTypeId = result[0][0]
 
             # 将字体数据插入字体数据表中
-            sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum)
+            sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum, font_free) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum, free)
             dbcursor.execute(sql, val)
             db.commit()
     print('=' * 100)
@@ -355,6 +370,13 @@ for j in range(1, 263):
             fontViewNum = int(fontViewNum)
             print('浏览次数：', fontViewNum)
 
+            free = 0
+            if len(i.split('commercial_free_scopes')) > 1:
+                free = 1
+            elif len(i.split('class="_sp"')) > 1:
+                free = -1
+            print('商用免费：', free)
+
             # 判断此字体类型是否已经存在于字体类型数据表中
             sql = "SELECT * FROM fonttype WHERE type_name = %s"
             val = (fontType,)
@@ -376,8 +398,8 @@ for j in range(1, 263):
                 fontTypeId = result[0][0]
 
             # 将字体数据插入字体数据表中
-            sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum)
+            sql = "INSERT INTO fontdata (font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum, font_free) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (fontName, fontId, fontTypeId, fontImg, fontPreview, fontDownload, fontViewNum, free)
             dbcursor.execute(sql, val)
             db.commit()
     print('=' * 100)

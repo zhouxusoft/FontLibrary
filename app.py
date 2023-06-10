@@ -45,6 +45,14 @@ app = Flask(__name__)
 fontnum = [0, 0, 0, 0]
 
 '''
+    请求前判断数据库连接
+'''
+@app.before_request
+def before_request():
+    if not db.open:
+        db.connect()
+
+'''
     默认进入页面
 '''
 @app.route('/')
