@@ -22,6 +22,7 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `hotfont` (\
                     `font_preview` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,\
                     `font_download` int NULL DEFAULT NULL,\
                     `font_viewnum` int NULL DEFAULT NULL,\
+                    `font_free` int NULL DEFAULT 0,\
                     PRIMARY KEY (`id`) USING BTREE\
                     ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;")
 
@@ -31,7 +32,7 @@ dbcursor.execute(sql)
 result = dbcursor.fetchall()
 
 for i in result:
-    sql = "INSERT INTO `hotfont` (id, font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7])
+    sql = "INSERT INTO `hotfont` (id, font_name, font_number, font_type, font_imgurl, font_preview, font_download, font_viewnum, font_free) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    val = (i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8])
     dbcursor.execute(sql, val)
     db.commit()
