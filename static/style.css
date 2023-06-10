@@ -513,3 +513,9 @@ input[type="password"]::-o-clear {
 .fontinfobtobtn {
     width: 100px;
 }
+
+.active {
+    background-color: whitesmoke !important;
+    border-color: #dee2e6 #dee2e6 whitesmoke !important;
+    color: #000 !important;
+}
