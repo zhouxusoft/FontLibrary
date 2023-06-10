@@ -20,6 +20,8 @@ let userLogin = false
 let fontPreviewNum = ''
 // 存储用户对当前字体的收藏状态
 let collectFlag = 0
+// 记录当前的选择是否免费
+let fontFree = 0
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -330,14 +332,16 @@ function setFonts() {
             element[3] = '图形字体'
         }
         /**
-         * <span class="badge text-bg-success">商用免费</span>
-         * <span class="badge text-bg-danger">付费</span>
+         * <span class="badge bg-success d-flex align-items-center ml-3">商用免费</span>
+         * <span class="badge bg-danger d-flex align-items-center ml-3">付费</span>
          */
         if (element[6] == 0) {
             $(select).append(`
                 <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box" data-font-number="${element[2]}">
                     <div class="text-dark d-flex align-items-center justify-content-between">
-                        <span class="font-top-name">${element[1]}</span>
+                        <span class="font-top-name d-flex" data-font-id-name="${element[0]}">${element[1]}
+                            <div class="p-2"></div>
+                        </span>
                         <span class="font-top-type">${element[3]}</span>
                     </div>
                     <div class="hr-i"></div>
@@ -359,7 +363,9 @@ function setFonts() {
             $(select).append(`
                 <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box" data-font-number="${element[2]}">
                     <div class="text-dark d-flex align-items-center justify-content-between">
-                        <span class="font-top-name">${element[1]}</span>
+                        <span class="font-top-name d-flex" data-font-id-name="${element[0]}">${element[1]}
+                            <div class="p-2"></div>
+                        </span>
                         <span class="font-top-type">${element[3]}</span>
                     </div>
                     <div class="hr-i"></div>
@@ -377,6 +383,13 @@ function setFonts() {
                     </div>
                 </div>
             `)
+        }
+        if (element[8] == 1) {
+            let select = '[data-font-id-name="' + element[0] + '"]'
+            $(select).append(`<span class="badge bg-success d-flex align-items-center ml-3">商用免费</span>`)
+        } else if (element[8] == -1) {
+            let select = '[data-font-id-name="' + element[0] + '"]'
+            $(select).append(`<span class="badge bg-danger d-flex align-items-center ml-3">付费</span>`)
         }
         for (let j = 0; j < userCollect.length; j++) {
             if (userCollect[j][2] == element[0]) {

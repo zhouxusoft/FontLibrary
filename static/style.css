@@ -507,7 +507,7 @@ input[type="password"]::-o-clear {
 }
 
 #fontinfoimgcharmap {
-    min-height: 300px;
+    min-height: 577px;
 }
 
 .fontinfobtobtn {
@@ -516,6 +516,19 @@ input[type="password"]::-o-clear {
 
 .active {
     background-color: whitesmoke !important;
-    border-color: #dee2e6 #dee2e6 whitesmoke !important;
+    border-color: #999 #999 whitesmoke !important;
     color: #000 !important;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #999 !important;
+}
+
+.nav-link:hover {
+    border-color: #ccc #ccc #999 !important;
+    isolation: isolate;
+}
+
+.active:hover {
+    border-color: #999 #999 whitesmoke !important;
 }

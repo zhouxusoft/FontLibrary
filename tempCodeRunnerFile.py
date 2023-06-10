@@ -1,0 +1,2 @@
+  dbcursor.execute(sql,)
+  
