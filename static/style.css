@@ -532,12 +532,3 @@ input[type="password"]::-o-clear {
 .active:hover {
     border-color: #999 #999 whitesmoke !important;
 }
-
-.nav-link:focus {
-    font-weight: 600;
-}
-
-.nav-link-top:focus-visible {
-    outline: none;
-    box-shadow: none;
-}
