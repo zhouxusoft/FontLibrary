@@ -316,7 +316,6 @@ function getSentence() {
     }
     return text
 }
-
 // 设置页面 显示当前的字体信息
 function setFonts() {
     let select = '#font-box-' + currentRoute
@@ -330,6 +329,10 @@ function setFonts() {
         } else {
             element[3] = '图形字体'
         }
+        /**
+         * <span class="badge text-bg-success">商用免费</span>
+         * <span class="badge text-bg-danger">付费</span>
+         */
         if (element[6] == 0) {
             $(select).append(`
                 <div class="col-sm-12 p-3 my-2 rounded bg-white text-white fontdata-border-box" data-font-number="${element[2]}">
@@ -442,7 +445,7 @@ function setFonts() {
         })
     })
 }
-
+// 点击获取预览效果
 $('#clickpreview').click(function () {
     let text = $('#clickpreviewinput').val()
     let src = `https://previewer.fonts.net.cn/canvas.php?font=${fontPreviewNum}&text=${text}`
@@ -529,7 +532,7 @@ const likePage = (route) => {
         setFontNum(4)
     }
 }
-
+// 检测登陆状态
 function checkCookie() {
     $.ajax({
         url: '/userCheckCookie',
@@ -680,7 +683,6 @@ function recheckPassword(data) {
 
     inputOK(userNameOK, checkPasswordOK, recheckPasswordOK)
 }
-
 // 清除cookie
 function clearCookie() {
     $.ajax({
@@ -696,7 +698,6 @@ function clearCookie() {
         }
     })
 }
-
 // 登录功能
 $('#loginbtn').click(function () {
     let username = $('#usernameInput').val() // 获取用户名输入框的内容
@@ -778,6 +779,5 @@ $('.dropdown').hover(
         $(this).find('.dropdown-menu').removeClass('show')
     }
 )
-
 
 router.start()
