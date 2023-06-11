@@ -753,6 +753,7 @@ $('#font-btn-search').click(function () {
     if ($('#font-input-search').val() != '') {
         searchKey = $('#font-input-search').val()
         $('#font-input-search').val('')
+        currentPage = 1
         location.href = '#/search'
     }
 })
