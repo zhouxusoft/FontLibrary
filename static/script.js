@@ -489,6 +489,7 @@ $('.nav-tabs').on('click', 'button', function () {
             // console.log(fontFree)
             setShowPage()
             setFontNum()
+            currentPage = 1
         }
     } else if (clickedId == 'nav-profile-tab') {
         if (fontFree != 1) {
@@ -500,10 +501,11 @@ $('.nav-tabs').on('click', 'button', function () {
             // console.log(fontFree)
             setShowPage()
             setFontNum()
+            currentPage = 1
         }
     }
 })
-
+// 获取类型名称
 function getCurrentTypeName() {
     if (currentRoute == 'home') {
         return '热门字体'
