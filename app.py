@@ -347,6 +347,28 @@ def userCheckCookie():
     else:
         return jsonify({'success': False, 'data': ''})
 
+'''
+    返回字体搜索结果
+'''
+@app.route('/search', methods=['POST'])
+def search():
+    data = request.get_json()
+    key = '%' + data['key'] + '%'
+    free = data['free']
+    perPageNum = data['num']
+    getId = perPageNum * (data['page'] - 1)
+    if free != 1:
+        free = '*'
+    sql = "SELECT * FROM `fontdata` WHERE `font_name` like %s AND `font_free` = %s"
+    val = (key, free)
+    dbcursor.execute(sql, val)
+    fontnum = len(dbcursor.fetchall())
+    sql = "SELECT * FROM `fontdata` WHERE `font_name` like %s AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+    val = (key, free, perPageNum, getId)
+    dbcursor.execute(sql, val)
+    result = dbcursor.fetchall()
+    return jsonify({'success': True, 'data': result, 'fontnum': fontnum})
+
 def checkCookie(token):
     sql = "SELECT * FROM `access-token` WHERE `token` = %s"
     val = (token,)

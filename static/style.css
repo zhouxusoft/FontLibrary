@@ -422,6 +422,13 @@ input[type="password"]::-o-clear {
     font-size: 1.375rem;
 }
 
+.font-home-like-title {
+    margin: auto;
+    width: fit-content;
+    font-weight: 500;
+    font-size: 1.375rem;
+}
+
 .font-home-hot-num {
     margin: auto;
     width: fit-content;

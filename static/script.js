@@ -22,6 +22,10 @@ let fontPreviewNum = ''
 let collectFlag = 0
 // 记录当前的选择是否免费
 let fontFree = 0
+// 记录当前的搜索关键字
+let searchKey = ''
+// 记录搜索结果的数量
+let searchFontNum = 0
 
 // 设置背景色
 const whiteBg = (route) => {
@@ -124,6 +128,8 @@ function getMaxPage() {
         return Math.ceil(fontNum[2] / perPageNum)
     } else if (currentRoute == 'like') {
         return Math.ceil(fontNum[4] / perPageNum)
+    } else if (currentRoute == 'search') {
+        return Math.ceil(searchFontNum / perPageNum)
     }
 }
 // 获取当前页面的字体信息
@@ -507,6 +513,8 @@ function getCurrentTypeName() {
         return '英文字体'
     } else if (currentRoute == 'pic') {
         return '图形字体'
+    } else if (currentRoute == 'search') {
+        return '搜索字体'
     }
 }
 
@@ -532,6 +540,8 @@ function setFontNum() {
         $('.font-num').text(fontNum[2])
     } else if (currentRoute == 'like') {
         $('.font-num').text(fontNum[4])
+    } else if (currentRoute == 'search') {
+        $('.font-num').text(searchFontNum)
     }
 }
 // 跳转首页页面执行
@@ -546,6 +556,11 @@ const homePage = (route) => {
     getFonts()
     setShowPage()
     setFontNum()
+    if (fontFree == 0) {
+        $('.font-home-hot-title').text(getCurrentTypeName())
+    } else {
+        $('.font-home-hot-title').text(getCurrentTypeName() + ' > 商用免费')
+    }
     $('#link-home').addClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').removeClass('current')
@@ -563,6 +578,11 @@ const zhPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum()
+    if (fontFree == 0) {
+        $('.font-home-hot-title').text(getCurrentTypeName())
+    } else {
+        $('.font-home-hot-title').text(getCurrentTypeName() + ' > 商用免费')
+    }
     $('#link-home').removeClass('current')
     $('#link-zh').addClass('current')
     $('#link-en').removeClass('current')
@@ -580,6 +600,11 @@ const enPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum()
+    if (fontFree == 0) {
+        $('.font-home-hot-title').text(getCurrentTypeName())
+    } else {
+        $('.font-home-hot-title').text(getCurrentTypeName() + ' > 商用免费')
+    }
     $('#link-home').removeClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').addClass('current')
@@ -597,6 +622,11 @@ const picPage = (route) => {
     getFonts()
     setShowPage()
     setFontNum()
+    if (fontFree == 0) {
+        $('.font-home-hot-title').text(getCurrentTypeName())
+    } else {
+        $('.font-home-hot-title').text(getCurrentTypeName() + ' > 商用免费')
+    }
     $('#link-home').removeClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').removeClass('current')
@@ -621,18 +651,72 @@ const likePage = (route) => {
         } else {
             $('#collect-page-box').css('visibility', 'hidden')
         }
+        console.log(fontNum[4])
         // console.log('当前第', currentPage, '页')
         getFonts()
         setShowPage()
         setFontNum()
+        if (fontNum[4] == 0) {
+            $('#font-box-like').append(`
+                <div class="col-sm-12 p-3 my-2 rounded bg-white text-dark d-flex justify-content-center">
+                    <img src="https://static.fonts.net.cn/3.1.0.23051202/assets/images/empty.png"></img>
+                </div>
+                <a class="btn btn-outline-primary my-3" href="#/home">返回首页</a>
+            `)
+        }
     }
 }
 // 跳转搜索页面执行
 const searchPage = (route) => {
+    if (searchKey == '') {
+        location.href = '#/home'
+    }
+    if (fontFree == 0) {
+        $('.font-home-hot-title').text(getCurrentTypeName() + ' > ' + searchKey)
+    } else {
+        $('.font-home-hot-title').text(getCurrentTypeName() + ' > 商用免费' + ' > ' + searchKey)
+    }
     $('#link-home').removeClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').removeClass('current')
     $('#link-pic').removeClass('current')
+    let toSend = {
+        page: currentPage,
+        num: perPageNum,
+        key: searchKey,
+        free: fontFree
+    }
+    $.ajax({
+        url: '/search',
+        type: 'POST',
+        data: JSON.stringify(toSend),
+        contentType: 'application/json',
+        success: function (response) {
+            if (response.success) {
+                currentFonts = response.data
+                searchFontNum = response.fontnum
+                setFonts()
+                setFontNum()
+                setShowPage()
+                if (getMaxPage() > 1) {
+                    $('#search-page-box').css('visibility', 'visible')
+                } else {
+                    $('#search-page-box').css('visibility', 'hidden')
+                }
+                if (searchFontNum == 0) {
+                    $('#font-box-search').append(`
+                        <div class="col-sm-12 p-3 my-2 rounded bg-white text-dark d-flex justify-content-center">
+                            <img src="https://static.fonts.net.cn/3.1.0.23051202/assets/images/empty.png"></img>
+                        </div>
+                        <a class="btn btn-outline-primary my-3" href="#/home">返回首页</a>
+                    `)
+                }
+            }
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
 }
 // 检测登陆状态
 function checkCookie() {
@@ -661,6 +745,8 @@ router.set('search', [smokeBg, searchPage])
 
 $('#font-btn-search').click(function () {
     if ($('#font-input-search').val() != '') {
+        searchKey = $('#font-input-search').val()
+        $('#font-input-search').val('')
         location.href = '#/search'
     }
 })

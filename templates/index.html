@@ -261,7 +261,7 @@
     <div data-route="like">
         <div class="container-fluid" style="max-width: 1200px;">
             <div class="font-home-hot pb-3 my-4 align-items-center">
-                <p class="font-home-hot-title align-items-center">我的收藏</p>
+                <p class="font-home-like-title align-items-center">我的收藏</p>
                 <p class="font-home-hot-num">共计&nbsp;<span class="font-num">99999</span>&nbsp;个字体</p>
             </div>
             <div class="row" id="font-box-like">
@@ -281,9 +281,19 @@
                 <p class="font-home-hot-title align-items-center">搜索字体</p>
                 <p class="font-home-hot-num">共计&nbsp;<span class="font-num">99999</span>&nbsp;个字体</p>
             </div>
+            <nav class="mb-1" id="search-free-type">
+                <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
+                    <button class="nav-link text-dark nav-all" id="nav-home-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                        aria-selected="true">所有字体</button>
+                    <button class="nav-link text-dark nav-free" id="nav-profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+                        aria-selected="false">商用免费</button>
+                </div>
+            </nav>
             <div class="row" id="font-box-search">
             </div>
-            <div class="change-page-box pt-3 pb-4 d-flex align-items-center" id="collect-page-box">
+            <div class="change-page-box pt-3 pb-4 d-flex align-items-center" id="search-page-box">
                 <span><span class="current-page"></span> / <span class="all-page"></span></span>
                 <div class="p-2"></div>
                 <button class="btn btn-outline-secondary mr-2 prve-page">上一页</button>
