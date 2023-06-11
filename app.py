@@ -182,26 +182,29 @@ def getFont():
     perPageNum = data['num']
     free = data['free']
     if free != 1:
-        free = '*'
+        free = (0, -1, 1)
+    else:
+        free = (1,)
     getId = perPageNum * (data['page'] - 1)
     if data['type'] == 'en':
-        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 2 AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 2 AND `font_free` IN %s ORDER BY id LIMIT %s OFFSET %s"
         val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'pic':
-        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 3 AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 3 AND `font_free` IN %s ORDER BY id LIMIT %s OFFSET %s"
         val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'home':
-        getId = getId
-        sql = "SELECT * FROM `hotfont` WHERE `font_free` = %s LIMIT %s OFFSET %s"
+        print(free, getId)
+        sql = "SELECT * FROM `hotfont` WHERE `font_free` IN %s ORDER BY id LIMIT %s OFFSET %s"
         val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
+        print(result)
     elif data['type'] == 'zh':
-        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1 AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1 AND `font_free` IN %s ORDER BY id LIMIT %s OFFSET %s"
         val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
@@ -358,12 +361,14 @@ def search():
     perPageNum = data['num']
     getId = perPageNum * (data['page'] - 1)
     if free != 1:
-        free = '*'
-    sql = "SELECT * FROM `fontdata` WHERE `font_name` like %s AND `font_free` = %s"
+        free = (0, -1, 1)
+    else:
+        free = (1,)
+    sql = "SELECT * FROM `fontdata` WHERE `font_name` like %s AND `font_free` IN %s"
     val = (key, free)
     dbcursor.execute(sql, val)
     fontnum = len(dbcursor.fetchall())
-    sql = "SELECT * FROM `fontdata` WHERE `font_name` like %s AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+    sql = "SELECT * FROM `fontdata` WHERE `font_name` like %s AND `font_free` IN %s ORDER BY id LIMIT %s OFFSET %s"
     val = (key, free, perPageNum, getId)
     dbcursor.execute(sql, val)
     result = dbcursor.fetchall()
