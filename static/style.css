@@ -540,3 +540,7 @@ input[type="password"]::-o-clear {
 .nav-link:focus {
     color: rgb(255,255,255);
 }
+
+.btn:focus {
+    box-shadow: none !important;
+}
