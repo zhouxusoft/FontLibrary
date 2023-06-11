@@ -637,6 +637,10 @@ const picPage = (route) => {
 // 跳转收藏页面执行
 const likePage = (route) => {
     checkCookie()
+    $('#link-home').removeClass('current')
+    $('#link-zh').removeClass('current')
+    $('#link-en').removeClass('current')
+    $('#link-pic').removeClass('current')
     if (!userLogin) {
         alert('请先登录')
         location.href = '#/home'
