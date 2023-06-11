@@ -475,7 +475,8 @@ $('.nav-tabs').on('click', 'button', function () {
     let clickedId = $(this).attr("id")
     if (clickedId == 'nav-home-tab') {
         if (fontFree != 0) {
-            location.href = `#/${currentRoute}`
+            location.href = `#/${currentRoute}/1`
+            $('.font-home-hot-title').text(getCurrentTypeName())
             fontFree = 0
             setFreeBtn()
             getFontNum()
@@ -485,7 +486,8 @@ $('.nav-tabs').on('click', 'button', function () {
         }
     } else if (clickedId == 'nav-profile-tab') {
         if (fontFree != 1) {
-            location.href = `#/${currentRoute}`
+            location.href = `#/${currentRoute}/1/free`
+            $('.font-home-hot-title').text(getCurrentTypeName() + ' > 商用免费')
             fontFree = 1
             setFreeBtn()
             getFontNum()
@@ -495,6 +497,20 @@ $('.nav-tabs').on('click', 'button', function () {
         }
     }
 })
+
+function getCurrentTypeName() {
+    if (currentRoute == 'home') {
+        return '热门字体'
+    } else if (currentRoute == 'zh') {
+        return '中文字体'
+    } else if (currentRoute == 'en') {
+        return '英文字体'
+    } else if (currentRoute == 'pic') {
+        return '图形字体'
+    }
+}
+
+// 设置商用免费和所有字体按钮选择样式
 function setFreeBtn() {
     if (fontFree == 0) {
         $('.nav-all').addClass('active')
@@ -611,6 +627,13 @@ const likePage = (route) => {
         setFontNum()
     }
 }
+// 跳转搜索页面执行
+const searchPage = (route) => {
+    $('#link-home').removeClass('current')
+    $('#link-zh').removeClass('current')
+    $('#link-en').removeClass('current')
+    $('#link-pic').removeClass('current')
+}
 // 检测登陆状态
 function checkCookie() {
     $.ajax({
@@ -634,19 +657,34 @@ router.set('zh', [smokeBg, zhPage])
 router.set('en', [smokeBg, enPage])
 router.set('pic', [smokeBg, picPage])
 router.set('like', [smokeBg, likePage])
+router.set('search', [smokeBg, searchPage])
+
+$('#font-btn-search').click(function () {
+    if ($('#font-input-search').val() != '') {
+        location.href = '#/search'
+    }
+})
 
 // 上一页按钮
 $('.prve-page').click(function () {
     if (currentPage > 1) {
         currentPage = currentPage - 1
-        location.href = '#/' + router.getNowRouteName() + '/' + currentPage
+        if (fontFree == 1) {
+            location.href = '#/' + router.getNowRouteName() + '/' + currentPage + '/free'
+        } else {
+            location.href = '#/' + router.getNowRouteName() + '/' + currentPage
+        }
     }
 })
 // 下一页按钮
 $('.next-page').click(function () {
     if (currentPage < getMaxPage()) {
         currentPage = currentPage + 1
-        location.href = '#/' + router.getNowRouteName() + '/' + currentPage
+        if (fontFree == 1) {
+            location.href = '#/' + router.getNowRouteName() + '/' + currentPage + '/free'
+        } else {
+            location.href = '#/' + router.getNowRouteName() + '/' + currentPage
+        }
     }
 })
 
