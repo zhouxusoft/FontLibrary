@@ -93,9 +93,13 @@ function setUserFont() {
 setUserFont()
 // 获取每种字体的数量
 function getFontNum() {
+    let toSend = {
+        free: fontFree
+    }
     $.ajax({
         url: '/getFontNum',
         type: 'POST',
+        data: JSON.stringify(toSend),
         contentType: 'application/json',
         async: false,
         success: function (response) {
@@ -127,7 +131,8 @@ function getFonts() {
     let toSend = {
         page: currentPage,
         type: currentRoute,
-        num: perPageNum
+        num: perPageNum,
+        free: fontFree
     }
     $.ajax({
         url: '/getFont',
@@ -470,15 +475,23 @@ $('.nav-tabs').on('click', 'button', function () {
     let clickedId = $(this).attr("id")
     if (clickedId == 'nav-home-tab') {
         if (fontFree != 0) {
+            location.href = `#/${currentRoute}`
             fontFree = 0
             setFreeBtn()
-            console.log(fontFree)
+            getFontNum()
+            // console.log(fontFree)
+            setShowPage()
+            setFontNum()
         }
     } else if (clickedId == 'nav-profile-tab') {
         if (fontFree != 1) {
+            location.href = `#/${currentRoute}`
             fontFree = 1
             setFreeBtn()
-            console.log(fontFree)
+            getFontNum()
+            // console.log(fontFree)
+            setShowPage()
+            setFontNum()
         }
     }
 })
@@ -492,8 +505,18 @@ function setFreeBtn() {
     }
 }
 // 设置顶部的字体数量
-function setFontNum(type) {
-    $('.font-num').text(fontNum[type])
+function setFontNum() {
+    if (currentRoute == 'home') {
+        $('.font-num').text(fontNum[3])
+    } else if (currentRoute == 'zh') {
+        $('.font-num').text(fontNum[0])
+    } else if (currentRoute == 'en') {
+        $('.font-num').text(fontNum[1])
+    } else if (currentRoute == 'pic') {
+        $('.font-num').text(fontNum[2])
+    } else if (currentRoute == 'like') {
+        $('.font-num').text(fontNum[4])
+    }
 }
 // 跳转首页页面执行
 const homePage = (route) => {
@@ -506,7 +529,7 @@ const homePage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
-    setFontNum(3)
+    setFontNum()
     $('#link-home').addClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').removeClass('current')
@@ -523,7 +546,7 @@ const zhPage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
-    setFontNum(0)
+    setFontNum()
     $('#link-home').removeClass('current')
     $('#link-zh').addClass('current')
     $('#link-en').removeClass('current')
@@ -540,7 +563,7 @@ const enPage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
-    setFontNum(1)
+    setFontNum()
     $('#link-home').removeClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').addClass('current')
@@ -557,7 +580,7 @@ const picPage = (route) => {
     // console.log('当前第', currentPage, '页')
     getFonts()
     setShowPage()
-    setFontNum(2)
+    setFontNum()
     $('#link-home').removeClass('current')
     $('#link-zh').removeClass('current')
     $('#link-en').removeClass('current')
@@ -585,7 +608,7 @@ const likePage = (route) => {
         // console.log('当前第', currentPage, '页')
         getFonts()
         setShowPage()
-        setFontNum(4)
+        setFontNum()
     }
 }
 // 检测登陆状态

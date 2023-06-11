@@ -43,6 +43,7 @@ dbcursor.execute("CREATE TABLE IF NOT EXISTS `fontcollect`  (\
 app = Flask(__name__)
 
 fontnum = [0, 0, 0, 0]
+ffontnum = [0, 0, 0, 0]
 
 '''
     请求前判断数据库连接
@@ -58,6 +59,7 @@ def before_request():
 @app.route('/')
 def index():
     global fontnum
+    global ffontnum
     sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1"
     dbcursor.execute(sql,)
     zhnum= len(dbcursor.fetchall())
@@ -80,6 +82,21 @@ def index():
         dbcursor.execute(sql, val)
         like = len(dbcursor.fetchall())
     fontnum = [zhnum, ennum, picnum, hotnum, like]
+
+    sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1 AND `font_free` = 1"
+    dbcursor.execute(sql,)
+    fzhnum= len(dbcursor.fetchall())
+    sql = "SELECT * FROM `fontdata` WHERE `font_type` = 2 AND `font_free` = 1"
+    dbcursor.execute(sql,)
+    fennum= len(dbcursor.fetchall())
+    sql = "SELECT * FROM `fontdata` WHERE `font_type` = 3 AND `font_free` = 1"
+    dbcursor.execute(sql,)
+    fpicnum= len(dbcursor.fetchall())
+    sql = "SELECT * FROM `hotfont` WHERE `font_free` = 1"
+    dbcursor.execute(sql,)
+    fhotnum= len(dbcursor.fetchall())
+    ffontnum = [fzhnum, fennum, fpicnum, fhotnum, like]
+
     return render_template('index.html')
 
 '''
@@ -163,29 +180,29 @@ def register():
 def getFont():
     data = request.get_json()
     perPageNum = data['num']
-    getId = perPageNum * (data['page'] - 1) + 1
+    free = data['free']
+    if free != 1:
+        free = '*'
+    getId = perPageNum * (data['page'] - 1)
     if data['type'] == 'en':
-        getId = getId + fontnum[0]
-        end = getId + fontnum[0] + fontnum[1]
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= %s ORDER BY id LIMIT %s"
-        val = (getId, end, perPageNum)
+        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 2 AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+        val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'pic':
-        getId = getId + fontnum[0] + fontnum[1]
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s ORDER BY id LIMIT %s"
-        val = (getId, perPageNum)
+        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 3 AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+        val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'home':
-        getId = getId - 1
-        sql = "SELECT * FROM `hotfont` LIMIT %s OFFSET %s"
-        val = (perPageNum, getId)
+        getId = getId
+        sql = "SELECT * FROM `hotfont` WHERE `font_free` = %s LIMIT %s OFFSET %s"
+        val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'zh':
-        sql = "SELECT * FROM `fontdata` WHERE id >= %s AND id <= 7736 ORDER BY id LIMIT %s"
-        val = (getId, perPageNum)
+        sql = "SELECT * FROM `fontdata` WHERE `font_type` = 1 AND `font_free` = %s ORDER BY id LIMIT %s OFFSET %s"
+        val = (free, perPageNum, getId)
         dbcursor.execute(sql, val)
         result = dbcursor.fetchall()
     elif data['type'] == 'like':
@@ -194,7 +211,7 @@ def getFont():
         if check['success']:
             userid = int(token.split('$')[2])
             sql = "SELECT * FROM `fontdata` JOIN `fontcollect` ON fontdata.id = fontcollect.font_id WHERE fontcollect.user_id = %s ORDER BY fontcollect.id DESC LIMIT %s OFFSET %s"
-            val = (userid, perPageNum, getId - 1)
+            val = (userid, perPageNum, getId)
             dbcursor.execute(sql, val)
             result = dbcursor.fetchall()
     return jsonify({'success': True, 'data': result})
@@ -272,6 +289,7 @@ def changeCollect():
 '''
 @app.route('/getFontNum', methods=['POST'])
 def getFontNum():
+    data = request.get_json()
     like = 0
     token = request.cookies.get('access-token')
     check = checkCookie(token)
@@ -282,7 +300,12 @@ def getFontNum():
         dbcursor.execute(sql, val)
         like = len(dbcursor.fetchall())
     fontnum[4] = like
-    return jsonify({'success': True, 'data': fontnum})
+    ffontnum[4] = like
+
+    if data['free'] == 1:
+        return jsonify({'success': True, 'data': ffontnum})
+    else:
+        return jsonify({'success': True, 'data': fontnum})
 
 '''
     返回用户登录状态
