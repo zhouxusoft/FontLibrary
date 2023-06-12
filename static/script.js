@@ -39,6 +39,9 @@ const smokeBg = (route) => {
     $("html, body").animate({ scrollTop: 0 }, 300)
     getCollect()
     setFreeBtn()
+    if (!$('.navbar-toggler').hasClass('collapsed') && $('.navbar-collapse').hasClass('show')) {
+        $('.navbar-toggler').click()
+    }
 }
 // 设置用户中心按钮样式
 function setUserFont() {
