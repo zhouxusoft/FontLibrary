@@ -31,6 +31,9 @@ let searchFontNum = 0
 const whiteBg = (route) => {
     document.body.style.backgroundColor = 'white'
     currentRoute = router.getNowRouteName()
+    if (!$('.navbar-toggler').hasClass('collapsed') && $('.navbar-collapse').hasClass('show')) {
+        $('.navbar-toggler').click()
+    }
 }
 // 设置背景色
 const smokeBg = (route) => {
@@ -752,6 +755,7 @@ router.set('pic', [smokeBg, picPage])
 router.set('like', [smokeBg, likePage])
 router.set('search', [smokeBg, searchPage])
 
+// 搜索按钮点击事件
 $('#font-btn-search').click(function () {
     if ($('#font-input-search').val() != '') {
         searchKey = $('#font-input-search').val()
@@ -982,6 +986,7 @@ let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
+// 将下拉菜单触发方式由click变为hover
 $('.dropdown').hover(
     function () {
         $(this).addClass('show')
@@ -992,5 +997,5 @@ $('.dropdown').hover(
         $(this).find('.dropdown-menu').removeClass('show')
     }
 )
-
+// 启动ApeeRouter
 router.start()
